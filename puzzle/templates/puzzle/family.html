@@ -1,0 +1,41 @@
+
+{% load static %}  
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+{% block content %}
+
+
+<div class="jumbotron text-center">
+  <h1>Zoo Information</h1>
+  <p>Find the zoo information in here and visit with your family!</p> 
+</div>
+
+{% include 'puzzle/navbar.html' %}
+<title>Family Mode</title>
+
+<article class="box highlight">
+
+	{% for each in zooList %}
+	<div style="margin-left:400px">
+	    <header>
+	        <h3>{{each.zoo_name}}</h3>
+	    </header>
+	    <img src ={{MEDIA_URL}}{{each.zoo_logo}}>
+	    <p>
+	        <li> <b>City</b> : {{each.zoo_city}} </li>
+	        <li> <b>Suburb</b> : {{each.zoo_suburb}} </li>
+	        <li> <b>Post Code</b> : {{each.zoo_post}} </li>
+	        <li> <b>Open Time</b> : <td>{{each.zoo_open | date:"H:i:s"}}AM </td></li>
+	        <li> <b>Close Time</b> : <td>{{each.zoo_close | date:"H:i:s"}}PM </td> </li>
+	    </p>
+	 </div>
+	   
+    {% endfor %}
+     </article>	
+{% endblock %}

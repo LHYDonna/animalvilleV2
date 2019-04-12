@@ -1,0 +1,70 @@
+
+
+body{
+	background-color:rgb(247,238,217);
+}
+#image {
+	height: 256px;
+	width: 256px;
+	background: url('https://cdn.codeandweb.com/blog/2016/05/10/how-to-create-a-sprite-sheet/spritestrip.png') 0px 0px;
+}
+
+.Content{
+	display: grid;
+	margin-block-start: 10%;
+
+}
+.process{
+	/* border: 1px solid; */
+	height: 50px;
+	width: 504px;
+}
+.header{
+	height: 50px;
+	/* border: 1px solid; */
+}
+/* .game{
+	border: 1px solid;
+} */
+div#GameButton {
+	display: grid; 
+	grid-template-columns: 33.3% 33.3% 33.3%;
+	height: 30px;
+	/* margin:0 auto; */
+}
+div#GameLevelButton {
+	display: grid; 
+	grid-template-columns: 33.3% 33.3% 33.3%;
+	height: 30px;
+	/* margin:0 auto; */
+}
+button{
+	width: 20;
+	border: 2px solid seagreen;
+	border-radius: 12px;
+}
+td {
+	/* width:168px;
+	height:168px; */
+	background-size:504px 504px;
+	border: 1px solid;
+}
+.btn-group{
+	width: 504px;
+	height: 30px;
+	left: 300px;
+  }
+  
+/* .btn-group :not(:last-child) {
+	border-right: none;
+}
+  
+.btn-group:after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.btn-group :hover {
+	background-color: #3e8e41;
+} */

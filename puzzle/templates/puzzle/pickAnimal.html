@@ -1,0 +1,71 @@
+{% extends 'puzzle/index.html' %}
+{% load static %}
+
+<head>
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+
+{% block content %}
+
+<style>
+ul,li{ padding:0; margin:0; overflow:hidden;}
+li{ list-style:none;}
+img{ border:0;}
+.container{ width:100%;left:30px;}
+.container li{ float:left; width:300px; height:300px; margin-right:20px;margin-top:40px;left:40px;right:30px;}
+.container li span{
+    width:110px; 
+    height:40px; 
+    line-height:50px; 
+    text-align:center; 
+    white-space:nowrap; 
+    text-overflow:ellipsis; 
+    overflow: hidden; 
+}
+</style>
+<div class="jumbotron text-center">
+  <h1> Puzzle Mode </h1>
+  <p>Click the endangered specie picture to start play the puzzle</p> 
+</div>
+
+
+<div class="container">    
+    <li>
+        <span><strong>Black-earned Miner</strong> </span>
+        <a id="a1" href="{% url 'puzzle:puzzle_game' 1 %}" ><img class="mode" src="{% static "images/1.jpg"%}"style="height: 200px; margin-top: 60px;" /></a>
+        
+    </li>
+    <li>
+        <span><strong>Burramys</strong> </span>
+        <a id="a2" href="{% url 'puzzle:puzzle_game' 2 %}"><img class="mode" src="{% static "images/2.jpg"%}" style="height: 200px; margin-top: 60px;" /></a>
+        
+    </li>
+    <li>
+        <span><strong>Charadrius mongolus</strong> </span>
+        <a id="a3"href="{% url 'puzzle:puzzle_game' 3 %}"><img class="mode" src="{% static "images/3.jpg"%}"style="height: 200px; margin-top: 60px;"/></a>
+       
+    </li>
+    <li>
+        <span><strong>Chatham Albatross</strong> </span>
+        <a id="a4" href="{% url 'puzzle:puzzle_game' 4 %}"><img class="mode" src="{% static "images/4.jpg"%}"style="height: 200px; margin-top: 60px;"/></a>
+       
+    </li>
+    <li>
+        <span><strong>Potorous longipes</strong> </span>
+        <a id="a5" href="{% url 'puzzle:puzzle_game' 5 %}"><img class="mode" src="{% static "images/5.jpg"%}"style="height: 200px; margin-top: 60px;"/></a>
+       
+    </li>
+
+</div>
+
+
+
+
+{% endblock %}	
+
+

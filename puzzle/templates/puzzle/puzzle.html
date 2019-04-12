@@ -1,0 +1,578 @@
+{% extends 'puzzle/index.html' %}
+
+{% load static %}
+
+{% block content %}
+<style type="text/css">
+
+</style>
+<link rel="stylesheet" href="{%static "css/puzzleGame.css" %}">
+	<div class="Content">
+
+            <div class="header" id="diffiHeader" height="300px" style="margin: 0 auto">  
+                    Simple
+            </div>
+            <div class="process" id="processBar" height="100px" style="margin: 0 auto">  
+                    <div style="width:500px;height:10px;background:#EDEDED;">
+                        <div id="pro" style="background:#FFED04;width:140px;height:10px;"></div>    
+                    </div>
+                    <!-- <div id="demo">
+                        <p id="image" onmouseover="animateScript()" onmouseout="stopAnimate()">
+                        </p>
+                    </div> -->
+            </div>
+            <!-- <div id="img" style="margin: 0 auto;width: 550px;height: 550px;color: yellow;" > -->
+            <!-- <div id="savewait" name="savewait"></div> -->
+            <div id="img" class="game" style="margin: 0 auto;width: 550px;height: 550px ;color: rgb(235, 176, 48);">
+                <div class="btn-group" style="left:20px;top:-30px" id="GameLevelButton">
+                        <button id="btn2">Simple</button>
+                        <button id="btn3">Medium</button>
+                        <button id="btn4">Difficult</button>
+                </div>
+                  
+                <div>
+                        <div id = 'content' style="grid-template-columns: 50% 50%">
+                                <table id="tb" cellpadding="0px" cellspacing="5px" width="529px" height="529px">
+                                    </table>
+                        </div>
+                        
+                        <div class="btn-group" style="left:30px;" id="GameButton">
+                                <button id="startGame">Start</button>
+                                <button id="restartGame">Reset</button>
+                                <button id="nextLevel">Next</button>
+                                <button id="menu" onclick="window.location.href='/puzzle/pickAnimal/'">Menu</button>
+                                <button id="hint">Hint</button>
+                        </div>
+                </div>
+
+            </div>
+        <div>
+                <button id="helpBtn">Help</button>
+                <div id='helpDiv' style="width: 380px; height: 380px; display: none"> 
+                    <li>1. Press start to start the game.</li>
+                    <li>2. Press reset to reset the game.</li>
+                    <li>3. Press next to go to next level.</li>
+                    <li>4. Jump to lower level by press the difficulty buttons.</li>
+                    <li>5. Press hint to get some hints when you stuck.</li>
+                    <li>6. Press menu to go back to animal list page.</li>  
+                </div>
+        </div>
+    </div>
+		
+<script type= "text/javascript">
+// Difficulty list
+let difficultyList = ['Simple','Medium','Difficult'];
+
+imageArray = new Array();
+var i = 0;
+
+{% for each in imageList%}
+    imageArray[i] = atob("{{each.image_code }}");
+    i+=1;
+{% endfor %}
+
+let imageList = imageArray;
+
+//background image
+var backgroundImge = "";
+
+//puzzle image
+var mainImge = imageArray[0];
+
+var done = false;
+
+var click = new Audio('/static/audio/click.mp3');
+var cheer = new Audio('/static/audio/cheer.wav');
+
+var tID; //we will use this variable to clear the setInterval()
+
+function stopAnimate() {
+  clearInterval(tID);
+} //end of stopAnimate()
+
+
+function animateScript() {
+
+  var position = 256; //start position for the image slicer
+  const interval = 100; //100 ms of interval for the setInterval()
+  const diff = 256; //diff as a variable for position offset
+  
+  tID = setInterval(() => {
+  
+    document.getElementById("image").style.backgroundPosition =
+      `-${position}px 0px`;
+    //we use the ES6 template literal to insert the variable "position"
+    
+    if (position < 1536) {
+      position = position + diff;
+    }
+    //we increment the position by 256 each time
+    else {
+      position = 256;
+    }
+    //reset the position to 256px, once position exceeds 1536px
+    
+  }, interval); //end of setInterval
+} 
+
+// window.onload=function(){
+
+//     var obtn=document.getElementById('btn');
+
+    // var opro=document.getElementById('pro');
+
+    // var wid=70;
+
+    // obtn.onclick=function(){
+
+    //     wid+=30;
+
+    //     opro.style.width=wid+'px';
+
+    // }
+
+// }
+
+// increase process bar
+function upDateBar(){
+    var opro = document.getElementById('pro');
+    var wid = 140 + 166*(level-2);
+    if (level == 2){
+        opro.style.backgroundColor = "yellow";
+    }
+    if (level == 3){
+        opro.style.backgroundColor = "orange";
+    }
+    if (level == 4){
+        opro.style.backgroundColor = "green";
+    }
+    opro.style.width = wid + 'px';
+}
+
+// verify if win
+function isWin() {
+    for (i = 0, td = document.getElementsByTagName('td'); i < td.length; i++) {
+        if (td[i].getAttribute('id') != td[i].className.slice(3)) {
+            return false;
+        }
+    }
+    done = true;
+    return true;
+}
+
+function isSuccess(){
+
+    var success = 0;
+    for (var i=0; i<td.length; i++){
+        console.log(td[i]);
+        classId = td[i].getAttribute('class');
+        number = parseInt(classId.replace( /^\D+/g, ''));
+        if (number == i){
+            success = success + 1
+        }
+    }
+    if (success == level*level && done){
+        console.log(success);
+        return true;
+    }
+    console.log("------------------");
+    console.log(success);
+    return false;
+}
+
+// table
+var td = [];
+td = document.getElementsByTagName('td');
+var level=2;
+
+// create table
+function createTable(){
+    var table = document.getElementById('tb');
+    table.innerHTML = "";
+    var tblB = document.createElement('tbody');
+    table.appendChild(tblB);
+    for (var i = 0; i < level; i++){
+        var tr = document.createElement('tr');
+        tblB.append(tr);
+        for (var j = 0; j< level; j++){
+            var td = document.createElement('td');
+            tr.appendChild(td);
+        }
+    }
+}
+
+
+// margin value
+var Margin = parseInt(document.getElementById('img').currentStyle ? parseInt(screen.availWidth) * 0.31 : window.getComputedStyle(document.getElementById("img"), null)['marginLeft']);
+
+//alert(Margin);
+var i;
+var clock;
+var flashClock;
+var flashClock2;
+var stop = 0;
+
+var makeTD = {
+    leftTop: 0,
+    rightButton: 0
+};
+var makeTable = [];
+
+// upgrade level
+function upLevel(){
+    level = level + 1;
+    mainImge = imageList[level-2];
+}
+
+// get random number
+function get_Random(maxNum) {
+    return Math.floor(Math.random() * maxNum);
+}
+
+// return current object value by key
+function getCss(elementObj, key) {
+    return elementObj.currentStyle ? elementObj.currentStyle[key] : window.getComputedStyle(elementObj, false)[key];
+}
+
+
+function contains(arr, obj) {
+    var i = arr.length;
+    while (i--) {
+        if (arr[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+// create temperate object 
+// if current overlay is over the half area of the target cell
+// return target number
+function getOverlay(_hover) {
+    var _Hover = new Object();
+    _Hover.middleX = parseInt(getCss(_hover, 'left')) + parseInt(getCss(_hover, 'width')) / 2;
+    _Hover.middleY = parseInt(getCss(_hover, 'top')) + parseInt(getCss(_hover, 'height')) / 2;
+    for (i = 0; i < makeTable.length; i++) {
+        if ((makeTable[i].left < _Hover.middleX && _Hover.middleX < makeTable[i].right) && (makeTable[i].top < _Hover.middleY && _Hover.middleY < makeTable[i].bottom)) {
+            return i;
+        }
+    }
+}
+
+
+function initTable(_col, _row) {
+    done = false;
+    // add picture
+    document.getElementsByTagName("body")[0].style.backgroundImage = "url(" + backgroundImge + ")";
+    for (i = 0; i < td.length; i++) {
+        td[i].style.backgroundImage = "url(" + mainImge + ")";
+    }
+    //
+    _col = _col ? _col : level;
+    _row = _row ? _row : level;
+    var table_cellSpacing = parseInt(document.getElementsByTagName('table')[0].getAttribute('cellspacing'));
+    let length = parseInt((parseInt(document.getElementsByTagName('table')[0].getAttribute('width'))-(2+_col)*table_cellSpacing)/_col);
+    let height = parseInt(document.getElementById('diffiHeader').getAttribute('height')) + table_cellSpacing;
+    let leftSiding = table_cellSpacing*5 + 10;
+    // console.log("height",height);
+    //
+    for (i = 0, td = document.getElementsByTagName('td'); i < td.length; i++) {
+        // td[i].setAttribute('class', 'img' + i);
+        td[i].setAttribute('id', i);
+        td[i].style.height = length + "px";
+        td[i].style.width = length + "px";
+        td[i].style.position = "absolute";
+        td[i].style.left = i % _row * (length + table_cellSpacing) + (parseInt(i % _row / _row) + 1) * Margin + leftSiding +"px";
+        td[i].style.top = parseInt(i / _col) * (length + table_cellSpacing) + height + "px";
+        
+        let trueId = td[i].getAttribute('trueId');
+        if (!trueId){
+            // backgroud graph location
+            td[i].setAttribute('class', 'img' + i);
+            td[i].style.backgroundPosition = (-Math.abs((i % _row) - 0))*length +'px ' + (-Math.abs(parseInt(i / _row) - 0))*length + 'px';
+            
+            // table location
+            makeTable[i] = new Object();
+            makeTable[i].left = parseInt(td[i].style.left) + leftSiding;
+            makeTable[i].top = parseInt(td[i].style.top) + height;
+
+            makeTable[i].right = parseInt(td[i].style.left) + parseInt(td[i].style.width);
+            makeTable[i].bottom = parseInt(td[i].style.top) + parseInt(td[i].style.height);
+
+            makeTable[i].middleX = (makeTable[i].left + makeTable[i].right) / 2;
+            makeTable[i].middleY = (makeTable[i].top + makeTable[i].bottom) / 2;
+        }
+    }
+}
+
+// give each cell a current id location
+function random_disorder() {
+    initTable();
+    used = [];
+    for (i = 0, td = document.getElementsByTagName('td'); i < td.length; i++) {
+        //
+        var class_id;
+        do {
+
+            class_id = get_Random(level*level);
+            if (used.length == level*level)
+                break;
+        }
+        while (contains(used, class_id));
+
+
+        var table_cellSpacing = parseInt(document.getElementsByTagName('table')[0].getAttribute('cellspacing'));
+        let length = parseInt((parseInt(document.getElementsByTagName('table')[0].getAttribute('width'))-(2+level)*table_cellSpacing)/level);
+
+        td[i].style.backgroundPosition = (-Math.abs((class_id % level) - 0))*length +'px ' + (-Math.abs(parseInt(class_id / level) - 0))*length + 'px';
+        
+        // table location
+        makeTable[i] = new Object();
+        makeTable[i].left = parseInt(td[i].style.left);
+        makeTable[i].top = parseInt(td[i].style.top);
+
+        makeTable[i].right = parseInt(td[i].style.left) + parseInt(td[i].style.width);
+        makeTable[i].bottom = parseInt(td[i].style.top) + parseInt(td[i].style.height);
+
+        makeTable[i].middleX = (makeTable[i].left + makeTable[i].right) / 2;
+        makeTable[i].middleY = (makeTable[i].top + makeTable[i].bottom) / 2;
+        td[i].setAttribute('class', 'img' + class_id);
+
+        // td[i].getAttribute('id')
+        td[i].setAttribute('trueId', class_id);
+
+        used[i] = class_id;
+
+    }
+    if (stop >= 9) {
+        clearInterval(clock);
+        stop = 0;
+    } else
+        stop++;
+}
+
+
+
+function drag(obj, mouseX, mouseY, successAction) {
+    // trueId = obj.getAttribute('trueId')
+    // console.log(obj.getAttribute('trueId'))
+    obj.style.zIndex = level.toString;
+    obj.style.zIndex = level.toString;
+    var templateObj = {
+        left: getCss(obj, 'left'),
+        top: getCss(obj, 'top'),
+        currentX: mouseX,
+        currentY: mouseY,
+        flag: true
+    };
+
+    document.onmousemove = function(event) {
+        var e = event ? event : window.event;
+        if (templateObj.flag) {
+            var nowX = e.clientX,
+                nowY = e.clientY;
+            var disX = nowX - templateObj.currentX,
+                disY = nowY - templateObj.currentY;
+            obj.style.left = parseInt(templateObj.left) + disX + "px";
+            obj.style.top = parseInt(templateObj.top) + disY + "px";
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            return false;
+        }
+
+        if (typeof callback == "function") {
+            callback(parseInt(templateObj.left) + disX, parseInt(templateObj.top) + disY);
+        }
+    }
+
+    for (i = 0; i < td.length; i++) {
+        td[i].onmouseup = function() {
+            obj.style.zindex = "0";
+            obj.style.zIndex = "0";
+            templateObj.flag = false;
+
+            var oLI = getOverlay(obj);
+            // var OverLay = makeTable[oLI];
+
+            if (oLI == 0 || oLI){
+                click.play();
+                if (getCss(obj, "left") !== "auto") {
+                    // locate table
+                    obj.style.left = makeTable[obj.id].left + "px";
+                    // locate picture
+                    var oldClass = obj.getAttribute('class');
+                    //alert(oLI);
+                    // exchange class
+                    obj.setAttribute('class', document.getElementById(oLI.toString()).getAttribute('class'));
+                    let temp = obj.style.backgroundPosition
+                    obj.style.backgroundPosition = document.getElementById(oLI).style.backgroundPosition
+                    document.getElementById(oLI).setAttribute('class', oldClass);
+                    document.getElementById(oLI).style.backgroundPosition = temp
+    
+                }
+                if (getCss(obj, "top") !== "auto") {
+                    // locate table
+                    obj.style.top = makeTable[obj.id].top + "px";
+                }
+            }
+            else{
+                console.log("No");
+            }
+            //addTitle();
+            if (isWin()) {
+                successAction();
+                flashClock;
+            }
+        };
+    }
+
+}
+
+// long press hint button
+
+hintBtn = document.getElementById('hint');
+console.log(hintBtn);
+var timer=null;
+presentTable = []
+hintBtn.addEventListener('mousedown', function() {
+    console.log("start");
+    savewait = document.getElementById('savewait');
+    console.log(savewait);
+    table = document.getElementById('tb');
+    
+    savewait.style.display = "block";
+    savewait.style.top = table.offsetTop + "px";
+    savewait.style.left = table.offsetLeft + "px";
+    savewait.style.width = table.offsetWidth + "px";
+    savewait.style.height = (table.offsetHeight-30) + "px";
+    savewait.style.backgroundImage = "url(" + backgroundImge + ")";
+});
+
+hintBtn.addEventListener('mouseup', function() {
+    console.log("end");
+});
+
+// Reset game
+document.getElementById('restartGame').addEventListener('click', function() {
+//    location.reload(true);
+        createTable();
+        initTable();
+});
+
+// Start game
+document.getElementById('startGame').addEventListener('click', function() {
+    console.log("Start Game")
+    // random divide
+    clock = setInterval("random_disorder()", 40);
+    //listen mouse event
+    for (i = 0; i < td.length; i++) {
+        td[i].addEventListener('mousedown', function() {
+            //drag
+            drag(event.target, event.clientX, event.clientY, successFunction);
+        });
+    }
+});
+
+// Next game
+document.getElementById('nextLevel').addEventListener('click', function() {
+    if (isSuccess()){
+        if (level == 4){
+            animalSuccessFunction();
+        }
+        if (level < 4){
+            upLevel();
+            createTable();
+            initTable();
+            upDateBar();
+            // changeBtnColor();
+            document.getElementById("diffiHeader").innerHTML = difficultyList[level-2];
+        }
+    }
+    else{
+        unCompleteFunction()
+    }
+ });
+
+ // help information
+ console.log(document.getElementById('helpBtn'));
+ document.getElementById('helpBtn').addEventListener('click',function(){
+    console.log('click');
+    var helpBox = document.getElementById('helpDiv');
+    if (helpBox.style.display == "none"){
+        helpBox.style.display = "block"; 
+    }
+    else{
+        helpBox.style.display = "none";
+    }
+ });
+
+// Level should be get from database
+//Go to simple game
+ document.getElementById('btn2').addEventListener('click',function(){
+    if (level >= 2){
+        level = 2;
+        mainImge = imageList[level-2];
+        createTable();
+        initTable();
+        upDateBar();
+        document.getElementById("diffiHeader").innerHTML = difficultyList[0];
+    }
+    else{
+        unCompleteFunction;
+    }
+ });
+
+//Go to medium game
+ document.getElementById('btn3').addEventListener('click',function(){
+    if (level >= 3){
+        level = 3;
+        mainImge = imageList[level-2];
+        createTable();
+        initTable();
+        increaseBar();
+        upDateBar();
+        document.getElementById("diffiHeader").innerHTML = difficultyList[1];
+    }
+    else{
+        unCompleteFunction;
+    }
+ });
+
+ //Go to difficult game
+ document.getElementById('btn4').addEventListener('click',function(){
+    if (level == 4){
+        level = 4;
+        mainImge = imageList[level-2];
+        createTable();
+        initTable();
+        upDateBar();
+        document.getElementById("diffiHeader").innerHTML = difficultyList[2];
+    }
+    else{
+        unCompleteFunction;
+    }
+ });
+
+
+// Congradulation message
+var successFunction = function() {
+    cheer.play();
+};
+
+// Congradulation message
+var unCompleteFunction = function() {
+    alert("Cannot jump to next level!");
+};
+
+// Congradulation message
+var animalSuccessFunction = function() {
+    // get data from database by specie id
+    alert("{{specie_desc}}");
+};
+
+createTable();
+initTable();
+</script>
+{% endblock %}
