@@ -1,0 +1,309 @@
+/* General styles */
+body {
+    margin: 0;
+    background-color: rgb(252, 239, 212);
+    
+    
+ }
+
+.h1 {
+    color: red;
+    text-shadow: 1px 1px 1px black;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.1));
+    padding: 3px;
+    text-align: center;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.5);
+ }
+
+td {
+	height: 20px;
+    width: 20px;
+	/* border: 1px solid; */
+}
+
+.sky{
+    width:1200px;
+    height:200px;
+    margin:0 auto;
+    position: absolute;
+    background:grey;
+    opacity:0;
+}
+
+.toolTb{
+    left: 20%;
+    align-content: center;
+    margin-top: 70%;
+}
+
+.foodTb {
+    width: 50%;
+    align-content: center;
+    margin-left: 25%;
+}
+
+.signalBar {
+    height: 50px;
+    /* border: 1px solid rgba(0,0,0,0.5); */
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2%;
+    margin-right: 10%;
+    margin-left: 12%;
+    border: 10px solid transparent;
+    padding: 15px;
+    border-image: url(https://animalville.s3.amazonaws.com/static/images/border.png) 60 stretch;
+}
+.foodBar {
+    height: 30px;
+    /* border: 1px solid rgba(0,0,0,0.5); */
+    /* padding: 3px; */
+}
+  
+#wrapper * {
+    padding: 1px;
+    font-size: 20px;
+}
+
+#wrapper main {
+    background-color: rgb(252, 239, 212);    
+    height: 100%;
+}
+
+#lifeBar {
+    height: 20px;
+    width: 150px;
+    background-color: green;
+}
+
+#hungerBar {
+    height: 20px;
+    width: 150px;
+    background-color: green;
+}
+
+.content1{
+    width:95%;
+    margin:0 auto;
+    height:500px;
+    /* background:#FF69B4; */
+}
+.leftDiv1{
+    position:absolute;
+    margin-left:12%;
+     
+}
+.rightDiv1{
+    background:#FFC0CB;    
+    height:600px;
+    width:1200px;
+    margin-left:18%;    
+    margin-bottom: 90%;
+} 
+.box {
+    position:absolute;
+    margin:auto;
+    /* display:block; */
+    /* margin-top:8%; */
+    width:200px;
+    height:200px;
+    background:none;
+    /* left: 1200px;
+    top: 300px; */
+}
+
+.pot {
+    position:absolute;
+    width:20%;
+    height:20%;
+    bottom:0;
+    left:40%;
+    background:#FCAA67;
+    -webkit-clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+    box-shadow: inset 0 16px 20px rgba(0,0,0,0.3);
+}
+
+.pot-top {
+    position:absolute;
+    width:22%;
+    height:5%;
+    bottom:17%;
+    left:39%;
+    background:#FCAA67;
+    border-radius:3px;
+}
+
+.stem {
+    position:absolute;
+    width:2%;
+    height:50%;
+    left:49%;
+    bottom:20%;
+    background:#70B77E;
+}
+
+.leaf {
+    position:absolute;
+    width:700%;
+    height:10%;
+    border-radius:50%;
+    background:#70B77E;
+}
+
+.leaf .line {
+    position:absolute;
+    width:80%;
+    height:1%;
+    background:rgba(0,0,0,0.1);
+    top:48%;
+}
+
+.leaf01 {
+    top:70%;
+    left:50%;
+    transform:rotate(-25deg);
+}
+
+.leaf02 {
+    top:50%;
+    right:50%;
+    transform:rotate(205deg);
+}
+
+.leaf03 {
+    top:30%;
+    left:50%;
+    transform:rotate(-25deg);
+} 
+
+.leaf04 {
+    top:20%;
+    right:50%;
+    transform:rotate(205deg);
+}  
+
+.leaf05 {
+    top:-17%;
+    left:-120%;
+    transform:rotate(-60deg);
+}
+
+.leaf06 {
+    top:-9%;
+    right:22%;
+    transform:rotate(195deg);
+}
+
+/* --- ANIMATION --- */
+
+.stem, .leaf {
+    animation-duration: 1.2s!important;
+    animation-fill-mode:forwards;
+}   
+
+.stem.rain {
+    animation: grow 1s linear 1;
+}
+
+@keyframes grow {
+    0% {
+        bottom:-40%;
+        width:1%;
+    }
+    
+    100% {
+        bottom:20%;
+        width:2%;
+    }
+}
+
+.stem.rain .leaf {
+    animation: leafGrow 1s linear 1;
+    animation-fill-mode:forwards;
+}
+
+@keyframes leafGrow {
+    0% {
+        width:0%;
+        height:0%;
+    }
+    
+    100% {
+        width:700%;
+        height:10%;
+    }
+} 
+
+.stem.rain .leaf05 {
+    animation: topLeafRight 1s linear 1;
+}
+
+@keyframes topLeafRight {
+    0% {
+        top:5%;
+        width:0%;
+        height:0%;
+        left:10%;
+    }
+    
+    100% {
+        width:700%;
+        height:10%;
+        top:-17%;
+        left:-120%;
+    }
+}
+
+.stem.rain .leaf06 {
+    animation: topLeafLeft 1s linear 1;
+}
+
+@keyframes topLeafLeft {
+    0% {
+        top:0%;
+        width:0%;
+        height:0%;
+    }
+    
+    100% {
+        width:700%;
+        height:10%;
+        top:-9%;
+    }
+}  
+
+.btn{
+    width: 80px;
+}
+
+.btnGroup{
+    margin-top:5%;
+   
+    display: grid; 
+    grid-template-columns: 50% 50%;
+    margin-left: 40%;
+    margin-right: 40%;
+	height: 30px;
+}
+
+.drop {
+    position:absolute;
+    top:30px;
+    left:20px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    -webkit-border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    font: normal 100%/normal Arial, Helvetica, sans-serif;
+    background:#17BEBB;
+    -webkit-transform: rotateZ(-45deg)   ;
+    transform: rotateZ(-45deg)   ;
+    -webkit-transform-origin: 50% 50% 0;
+    transform-origin: 50% 50% 0;
+    animation:rain 2s linear 1;
+    animation-fill-mode:forwards;
+    cursor:pointer;
+    z-index:9999;
+    }   
