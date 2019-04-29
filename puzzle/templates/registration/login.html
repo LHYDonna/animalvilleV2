@@ -1,0 +1,54 @@
+
+{% load static%}
+<title>Login</title>
+
+<link rel="stylesheet" href="{% static "css/register/login.css" %}">
+
+<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+
+<style type="text/css">
+   
+    body {
+        background-repeat: no-repeat;
+        background-position:left center;
+        background-size: 100% 100%;
+        background-color: antiquewhite;
+       margin-left:40%;
+       background-attachment:fixed;  
+    } 
+   
+
+    .container {
+        margin-top: 100px;
+        left:100px;
+    }
+    
+</style>
+</head>
+<body>
+
+    {% if form.errors %}
+    <h1> There's something wrong with what you entered!</h1>
+    {% endif %}
+
+    {% if next %}
+    </p> Hey, you can't access that page. </p>
+    {% endif %}
+
+    <div class="login">
+        <form method="post" action="{% url 'login'%}" class="container">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <!--a tabindex="4" class="btn pull-left btn-link text-muted" onClick="goto_forget()">forgot password?</a-->
+                <a tabindex="5" class="btn btn-link text-muted" href="{% url 'puzzle:signup' %}">register</a>
+                <!--a tabindex="5" class="btn btn-link text-muted" onClick="goto_register()">register</a-->
+                <input class="btn btn-primary" type="submit" tabindex="3" onClick="login()" value="login"
+                       style="color:white;" />
+            </div>
+            <input type="hidden" name="next" value="{{next}}">
+        </form>
+    </div>
+{% include 'puzzle/footer.html' %}
+
+</body>

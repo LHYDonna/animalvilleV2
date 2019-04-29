@@ -3,9 +3,8 @@
 {% load static %}
 
 {% block content %}
-<style type="text/css">
-
-</style>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script>
 <link rel="stylesheet" href="{%static "css/puzzleGame.css" %}">
 	<div class="Content">
 
@@ -22,20 +21,18 @@
                     </div> -->
             </div>
             <!-- <div id="img" style="margin: 0 auto;width: 550px;height: 550px;color: yellow;" > -->
-            <!-- <div id="savewait" name="savewait"></div> -->
-            <div id="img" class="game" style="margin: 0 auto;width: 550px;height: 550px ;color: rgb(235, 176, 48);">
+            
+            <div id="img" class="game" style="margin: 0 auto;width: 550px;height: 550px ;color: orange;">
                 <div class="btn-group" style="left:20px;top:-30px" id="GameLevelButton">
                         <button id="btn2">Simple</button>
                         <button id="btn3">Medium</button>
                         <button id="btn4">Difficult</button>
-                </div>
-                  
+                </div>                  
                 <div>
                         <div id = 'content' style="grid-template-columns: 50% 50%">
                                 <table id="tb" cellpadding="0px" cellspacing="5px" width="529px" height="529px">
                                     </table>
-                        </div>
-                        
+                        </div>                        
                         <div class="btn-group" style="left:30px;" id="GameButton">
                                 <button id="startGame">Start</button>
                                 <button id="restartGame">Reset</button>
@@ -44,7 +41,6 @@
                                 <button id="hint">Hint</button>
                         </div>
                 </div>
-
             </div>
         <div>
                 <button id="helpBtn">Help</button>
@@ -57,9 +53,23 @@
                     <li>6. Press menu to go back to animal list page.</li>  
                 </div>
         </div>
+        <div id="ac-wrapper" style='display:none'>
+            <div id="popup">
+                <center>
+                     <p id="p">Popup Content Here</p>
+                                              
+                    <input type="submit" name="submit" value="Got it!" onClick="PopUp('hide')" />
+                </center>
+            </div>
+        </div>
     </div>
 		
 <script type= "text/javascript">
+{% if request.user.is_authenticated %}
+    var money = {{request.user.user_score}};
+{% else %}
+    var money = 100;
+{% endif %}
 // Difficulty list
 let difficultyList = ['Simple','Medium','Difficult'];
 
@@ -67,7 +77,7 @@ imageArray = new Array();
 var i = 0;
 
 {% for each in imageList%}
-    imageArray[i] = atob("{{each.image_code }}");
+    imageArray[i] = "{{MEDIA_URL}}{{each.image}}"
     i+=1;
 {% endfor %}
 
@@ -81,8 +91,8 @@ var mainImge = imageArray[0];
 
 var done = false;
 
-var click = new Audio('/static/audio/click.mp3');
-var cheer = new Audio('/static/audio/cheer.wav');
+var click = new Audio("{% static "audio/click.mp3" %}");
+var cheer = new Audio("{% static "audio/cheer.wav" %}");
 
 var tID; //we will use this variable to clear the setInterval()
 
@@ -115,24 +125,6 @@ function animateScript() {
   }, interval); //end of setInterval
 } 
 
-// window.onload=function(){
-
-//     var obtn=document.getElementById('btn');
-
-    // var opro=document.getElementById('pro');
-
-    // var wid=70;
-
-    // obtn.onclick=function(){
-
-    //     wid+=30;
-
-    //     opro.style.width=wid+'px';
-
-    // }
-
-// }
-
 // increase process bar
 function upDateBar(){
     var opro = document.getElementById('pro');
@@ -147,6 +139,31 @@ function upDateBar(){
         opro.style.backgroundColor = "green";
     }
     opro.style.width = wid + 'px';
+    }
+
+function animalInfor() {
+        var message;
+        if (level == 2) {
+            message = "{{easy}}";
+            document.getElementById("p").innerHTML = message;  
+        }        
+        else if (level == 4){
+            message = "{{diff}}";
+            document.getElementById("p").innerHTML = message;
+        }        
+        else if (level == 3){
+            console.log("thihs is medium");
+            var p = document.getElementById("p")            
+            document.getElementById("p").innerHTML = ('beforeend','<h1>This is what they normally like to eat</h1><img src={{MEDIA_URL}}{{medium}}/>');
+        }
+                   
+        PopUp('show');
+ }
+ 
+// pop up the animal information after puzzle success 
+function PopUp(hideOrshow) {
+    if (hideOrshow == 'hide') document.getElementById('ac-wrapper').style.display = "none";
+    else document.getElementById('ac-wrapper').removeAttribute('style');
 }
 
 // verify if win
@@ -160,8 +177,7 @@ function isWin() {
     return true;
 }
 
-function isSuccess(){
-
+function isSuccess(){    
     var success = 0;
     for (var i=0; i<td.length; i++){
         console.log(td[i]);
@@ -172,6 +188,8 @@ function isSuccess(){
         }
     }
     if (success == level*level && done){
+        
+        
         console.log(success);
         return true;
     }
@@ -234,7 +252,6 @@ function getCss(elementObj, key) {
     return elementObj.currentStyle ? elementObj.currentStyle[key] : window.getComputedStyle(elementObj, false)[key];
 }
 
-
 function contains(arr, obj) {
     var i = arr.length;
     while (i--) {
@@ -259,7 +276,6 @@ function getOverlay(_hover) {
         }
     }
 }
-
 
 function initTable(_col, _row) {
     done = false;
@@ -388,7 +404,9 @@ function drag(obj, mouseX, mouseY, successAction) {
     }
 
     for (i = 0; i < td.length; i++) {
-        td[i].onmouseup = function() {
+        td[i].style.borderColor = 'orange';
+        td[i].style.borderWidth = '1px';
+        td[i].onmouseup = function () {
             obj.style.zindex = "0";
             obj.style.zIndex = "0";
             templateObj.flag = false;
@@ -396,7 +414,7 @@ function drag(obj, mouseX, mouseY, successAction) {
             var oLI = getOverlay(obj);
             // var OverLay = makeTable[oLI];
 
-            if (oLI == 0 || oLI){
+            if (oLI == 0 || oLI) {
                 click.play();
                 if (getCss(obj, "left") !== "auto") {
                     // locate table
@@ -410,49 +428,80 @@ function drag(obj, mouseX, mouseY, successAction) {
                     obj.style.backgroundPosition = document.getElementById(oLI).style.backgroundPosition
                     document.getElementById(oLI).setAttribute('class', oldClass);
                     document.getElementById(oLI).style.backgroundPosition = temp
-    
+
                 }
                 if (getCss(obj, "top") !== "auto") {
                     // locate table
                     obj.style.top = makeTable[obj.id].top + "px";
                 }
             }
-            else{
+            else {
                 console.log("No");
             }
             //addTitle();
             if (isWin()) {
                 successAction();
+                animalInfor();
+                money = money + 10;
+                upDateDatabase(money);
+                if (level < 4) {
+                    upLevel();
+                }
+                if (level >= 4) {
+                    $.cookie('{{specie_id}}', 'pass', { expires: 7, path: '/' });
+                    console.log('store');                    
+                    console.log($.cookie('{{specie_id}}'));
+                }
+                if ($.cookie('highest{{ specie_id }}') != undefined) {
+                    var currentHigh = $.cookie('highest{{ specie_id }}');
+                    if (currentHigh <= level) {
+                        $.cookie('highest{{ specie_id }}', level);
+                     }
+                  }
+                else {
+            $.cookie('highest{{ specie_id }}', level, { expires: 7, path: '/' });
+                }                
+                console.log("cookie:"+$.cookie('highest{{ specie_id }}'));                
+                                
                 flashClock;
-            }
+                
+        }
         };
     }
-
 }
 
-// long press hint button
 
-hintBtn = document.getElementById('hint');
-console.log(hintBtn);
-var timer=null;
-presentTable = []
-hintBtn.addEventListener('mousedown', function() {
-    console.log("start");
-    savewait = document.getElementById('savewait');
-    console.log(savewait);
-    table = document.getElementById('tb');
-    
-    savewait.style.display = "block";
-    savewait.style.top = table.offsetTop + "px";
-    savewait.style.left = table.offsetLeft + "px";
-    savewait.style.width = table.offsetWidth + "px";
-    savewait.style.height = (table.offsetHeight-30) + "px";
-    savewait.style.backgroundImage = "url(" + backgroundImge + ")";
-});
 
-hintBtn.addEventListener('mouseup', function() {
-    console.log("end");
-});
+function upDateDatabase(money){       
+    var url = "{% url "puzzle:score" %}"
+    $.ajax({
+        url:url,
+        type:"POST",
+        data:{'csrfmiddlewaretoken' : "{{  csrf_token  }}",'username':'{{request.user.username}}',"score":money},
+        success: function(result){}
+    });    
+}
+//  hint button
+
+document.getElementById('hint').addEventListener('click', function() {
+    for (i = 0, td = document.getElementsByTagName('td'); i < td.length; i++) {
+        var index = 0
+        if (parseInt(td[i].getAttribute('class').substr(-2))){
+            index = parseInt(td[i].getAttribute('class').substr(-2))
+        }
+        else{
+            index = td[i].getAttribute('class').substr(-1)
+        }
+        if (index != i){
+            console.log(td[i]);
+            td[i].style.borderColor = "red";
+            td[index].style.borderColor = "red";
+            td[i].style.borderWidth = '10px';
+            td[index].style.borderWidth = '10px';
+            break;
+        }
+    }
+ });
 
 // Reset game
 document.getElementById('restartGame').addEventListener('click', function() {
@@ -476,25 +525,35 @@ document.getElementById('startGame').addEventListener('click', function() {
 });
 
 // Next game
-document.getElementById('nextLevel').addEventListener('click', function() {
-    if (isSuccess()){
-        if (level == 4){
+    document.getElementById('nextLevel').addEventListener('click', function () {
+            
+    var highest = $.cookie('highest{{ specie_id }}');
+    
+    if (highest>=level) {        
+        //upLevel();           
+        createTable();
+        initTable();
+        upDateBar();
+        // changeBtnColor();
+        document.getElementById("diffiHeader").innerHTML = difficultyList[level-2];
+        
+    }else if (isSuccess()) {
+        if (level == 4){ 
             animalSuccessFunction();
         }
-        if (level < 4){
-            upLevel();
+        if (level < 4) {
+            //upLevel();           
             createTable();
             initTable();
             upDateBar();
             // changeBtnColor();
             document.getElementById("diffiHeader").innerHTML = difficultyList[level-2];
         }
+    } else {
+        unCompleteFunction; 
     }
-    else{
-        unCompleteFunction()
-    }
+    
  });
-
  // help information
  console.log(document.getElementById('helpBtn'));
  document.getElementById('helpBtn').addEventListener('click',function(){
@@ -508,10 +567,13 @@ document.getElementById('nextLevel').addEventListener('click', function() {
     }
  });
 
-// Level should be get from database
+//Level should be get from database
 //Go to simple game
- document.getElementById('btn2').addEventListener('click',function(){
-    if (level >= 2){
+    document.getElementById('btn2').addEventListener('click', function () {
+
+     var highest = $.cookie('highest{{ specie_id }}');
+        console.log(highest);
+    if (highest >= 2) { 
         level = 2;
         mainImge = imageList[level-2];
         createTable();
@@ -525,13 +587,14 @@ document.getElementById('nextLevel').addEventListener('click', function() {
  });
 
 //Go to medium game
- document.getElementById('btn3').addEventListener('click',function(){
-    if (level >= 3){
+    document.getElementById('btn3').addEventListener('click', function () {
+
+    var highest = $.cookie('highest{{ specie_id }}');
+    if (highest >= 3) {
         level = 3;
         mainImge = imageList[level-2];
         createTable();
-        initTable();
-        increaseBar();
+        initTable();        
         upDateBar();
         document.getElementById("diffiHeader").innerHTML = difficultyList[1];
     }
@@ -542,8 +605,10 @@ document.getElementById('nextLevel').addEventListener('click', function() {
 
  //Go to difficult game
  document.getElementById('btn4').addEventListener('click',function(){
-    if (level == 4){
-        level = 4;
+     var highest = $.cookie('highest{{ specie_id }}');
+    console.log("{{specie_id}}");
+    if (highest >= 4) { 
+        level = 4
         mainImge = imageList[level-2];
         createTable();
         initTable();
@@ -556,6 +621,7 @@ document.getElementById('nextLevel').addEventListener('click', function() {
  });
 
 
+
 // Congradulation message
 var successFunction = function() {
     cheer.play();
@@ -563,16 +629,17 @@ var successFunction = function() {
 
 // Congradulation message
 var unCompleteFunction = function() {
+    console.log("YYYY");
     alert("Cannot jump to next level!");
 };
 
 // Congradulation message
-var animalSuccessFunction = function() {
+var animalSuccessFunction = function() {    
     // get data from database by specie id
-    alert("{{specie_desc}}");
+    alert("Done");
 };
-
-createTable();
+    createTable();
+   
 initTable();
 </script>
 {% endblock %}

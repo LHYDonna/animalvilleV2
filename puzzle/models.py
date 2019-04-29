@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class level(models.Model):
@@ -14,52 +15,23 @@ class Address(models.Model):
     address= models.IntegerField(db_index=True)
     city = models.CharField(max_length=20,null=True)
     suburb = models.CharField(max_length=20,null=True)
-    postcode = models.IntegerField()
+    postcode = models.CharField(max_length=4,null=True)
     street = models.CharField(max_length=50,null=True)    
     def __str__(self):
         result = str(self.address) + '\n' + self.city + '\n' + self.suburb + '\n' + str(self.postcode) + '\n' + self.street
         return result
 
-class User(models.Model):
+class User(AbstractUser):    
     user_id = models.IntegerField(primary_key=True,db_index=True)
-    address = models.ForeignKey(Address,on_delete=models.CASCADE)
-    user_score = models.IntegerField(default=0)
-    def __str__(self):
-        result = str(self.user_id) + '\n' + self.address + '\n' + str(self.user_score)
-        return result
-
-class Specie(models.Model):    
-    specie_id = models.IntegerField(primary_key=True,db_index=True)
-    specie_name = models.CharField(max_length=300,null=True,blank=True)
-    specie_desc = models.CharField(max_length=300,null=True,blank=True,default='')
-    #specie_photo = models.ImageField(upload_to='specie',blank=True)
-    def __str__(self):
-        return str(self.specie_id)
-
-
-
-class Photo(models.Model):
-    photo_id = models.IntegerField(primary_key=True,db_index=True)
-    photo_desc = models.CharField(max_length=300,null=True)
-    specie = models.ForeignKey(Specie,on_delete=models.CASCADE,null=True)
-    image = models.ImageField(upload_to='puzzle/',blank=True,null=True)
-    image_code = models.CharField(max_length=100000,null=True)
-    def __str__(self):
-        return self.photo_desc
-    def get_absolute_url(self):
-        #return reverse("photos",kwargs={"id":self.photo_id})#f"/photos/{self.photo_id}/"
-        return "/photos/{self.photo_id}"
-
-
-
-class Puzzle(models.Model):
-    puzzle_id = models.IntegerField(primary_key=True,db_index=True)
-    picture = models.ForeignKey(Photo,on_delete=models.CASCADE)
-    level = models.ForeignKey(level,on_delete=models.CASCADE)
-    specie = models.ForeignKey(Specie,on_delete=models.CASCADE)
-    #user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
-    startTime = models.DateTimeField('time start play')
-    endTime = models.DateTimeField('time finish play')
+    username =models.CharField(max_length=15,null=True,unique=True)  
+    password = models.CharField(max_length=15,null=True,unique=True)
+    postcode = models.CharField(max_length=4,null=True)      
+    user_score = models.IntegerField(default=100)
+    
+    USERNAME_FIELD = 'username'
+    PASSWORD_FIELD = 'password'
+    class Meta(AbstractUser.Meta):
+        pass
     
 class Zoo(models.Model):
     zoo_id = models.IntegerField(primary_key=True,db_index=True)    
@@ -73,12 +45,46 @@ class Zoo(models.Model):
     zoo_close = models.DateTimeField('zoo close time')
     def __str__(self):
         return self.zoo_name
-#class Zoo(models.Model):
-#    zoo_id = models.IntegerField(primary_key=True,db_index=True)
-#    address_id = models.ForeignKey(Address,on_delete=models.CASCADE)
-#    zoo_logo = models.ForeignKey(Photo,on_delete=models.CASCADE)
-#    zoo_name = models.CharField(max_length=200,null=True)
-#    zoo_open = models.DateTimeField('zoo open time')
-#    zoo_close = models.DateTimeField('zoo close time')
-#    def __str__(self):
-#        return self.zoo_name
+
+
+    
+class Specie(models.Model):    
+    specie_id = models.IntegerField(primary_key=True,db_index=True)
+    specie_name = models.CharField(max_length=300,null=True,blank=True)
+    specie_desc = models.CharField(max_length=300,null=True,blank=True,default='')
+    easy = models.CharField(max_length=1000,null=True,blank=True,default='')
+    medium = models.ImageField(upload_to='puzzle/',blank=True,null=True)
+    diff = models.CharField(max_length=1000,null=True,blank=True,default='')
+    def __str__(self):
+        return str(self.specie_id) 
+    
+class Photo(models.Model):
+    photo_id = models.IntegerField(primary_key=True,db_index=True)
+    photo_desc = models.CharField(max_length=300,null=True)    
+    image = models.ImageField(upload_to='puzzle/',blank=True,null=True)
+    specie = models.ForeignKey(Specie,on_delete=models.CASCADE,blank=True,null=True)
+    def __str__(self):
+        return self.photo_desc
+    def get_absolute_url(self):
+        #return reverse("photos",kwargs={"id":self.photo_id})#f"/photos/{self.photo_id}/"
+        return "/photos/{self.photo_id}"
+    
+class Food(models.Model):
+    foodName = models.CharField(max_length=20,null=True)
+    food_img = models.ImageField(upload_to='puzzle/',blank=True,null=True)
+    food_score =models.IntegerField(default=10)
+    specie = models.ForeignKey(Specie,on_delete=models.CASCADE,blank=True,null=True)
+
+class Puzzle(models.Model):
+    puzzle_id = models.IntegerField(primary_key=True,db_index=True)
+    picture = models.ForeignKey(Photo,on_delete=models.CASCADE)
+    level = models.ForeignKey(level,on_delete=models.CASCADE)
+    specie = models.ForeignKey(Specie,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    startTime = models.DateTimeField('time start play')
+    endTime = models.DateTimeField('time finish play')
+    
+class Tool(models.Model):
+    toolName = models.CharField(max_length=20,null=True)
+    tool_img = models.ImageField(upload_to='puzzle/',blank=True,null=True)
+    tool_score = models.IntegerField(default=20)

@@ -1,0 +1,431 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Grow Mode</title>
+    <link rel="stylesheet" href="{% static  "css/grow.css" %}">
+    <!-- header-->
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+{% include 'puzzle/navbar.html' %}
+    <header>
+        <h1></h1>
+    </header>
+
+    <div id="wrapper" style="height:100%;">
+        <main>
+            <div class="signalBar">
+                <div> <img src="{% static "images/signal/like.png" %}"> </div>
+                <div style="width:155px;height:20px;background:#EDEDED;">
+                    <div id="lifeBar"></div>
+                </div>
+                <div> <img src="{% static "images/signal/energy.png" %}"> </div>
+                <div style="width:155px;height:20px;background:#EDEDED;">
+                    <div id="hungerBar" width="200px"></div>
+                </div>
+                <div> <img src="{%static "images/signal/money.png" %}"> </div>
+                <div id="score">100</div>
+            </div>
+            <table class="foodTb" id='foodTable'></table>
+
+            <div class="content1">
+                <div class="leftDiv1">
+                    <table class="toolTb" cellspacing="40px">
+                        <tr>
+                            <td><img src="{% static "images/tool/broom.png" %}" id="cleaner" draggable="true" ondragstart="drag(event)"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><img src="{% static "images/tool/tree.png" %}" id="tree" draggable="true" ondragstart="drag(event)"></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div class="rightDiv1" id="garden" margin="0px" style="background-image: url('https://animalville.s3.amazonaws.com/static/images/g3.gif')" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <!--div class="sky" id="sky"></div-->
+                </div>
+            </div>
+            <div class='btnGroup'>
+                <button id="startBtn" class='btn'>Start</button>
+                <button id="endBtn" class='btn'>End</button>
+            </div>
+        </main>
+    </div>
+    <!--footer-->
+    
+<script>
+var game_id = 0;
+var animal_id = {{specieId}};
+var startTime = 0;
+var endTime = 0;
+var animalLife = 1;
+var animal_hunger = 1;
+let animal_eat = {{specieId}}-1
+var gameStatus = false;
+var airPollution = 0;
+var myVar;
+var audio;
+let cleaner = document.getElementById("cleaner");
+{% if request.user.is_authenticated %}
+    var money = {{request.user.user_score}};
+{% else %}
+    var money = 100;
+{% endif %}
+
+document.getElementById("score").innerHTML = money;
+
+
+function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+function drag(ev){
+    money = money - 10;
+    ev.dataTransfer.setData("text", ev.target.id);
+    console.log("drag");
+    console.log("=================");
+    if (money >= 0){
+        updateMoney(money);
+    }
+    else{
+        alert("No money to spend! Go to puzzle mode to collect more money!");
+        upDateDatabase(0);        
+    }
+    if (ev.path[2].id == 'foodTable'){
+        if (ev.path[0].id.slice(-1) == animal_eat){
+            animal_hunger = animal_hunger + 0.1;
+            this.setHunger(animal_hunger);
+        }
+    }
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    console.log("drop");
+
+    let workType = document.getElementById(data).getAttribute('id');
+    if (workType == 'cleaner'){
+        var imgSet = document.getElementsByClassName('imgElem');
+        for (var i = 0; i < imgSet.length; i++){
+            let locX = parseInt(imgSet[i].style.left.slice(0,-2));
+            let locY = parseInt(imgSet[i].style.top.slice(0,-2));
+            // - document.getElementById("garden").offsetTop
+            let picH = imgSet[i].offsetHeight;
+            let picW = imgSet[i].offsetWidth;
+            if (locX-picW <= ev.clientX && ev.clientX <= locX+picW && locY-picH <= ev.clientY && ev.clientY <= locY+picH){
+                audio = new Audio("{% static "sound/swipe.mp3" %}");
+                audio.play();
+                console.log('Delete1');
+                document.getElementById("garden").removeChild(imgSet[i]);
+                animalLife = animalLife + 0.1;
+                this.setLife(animalLife);
+            }
+        }
+    }
+    if (workType == 'tree' && gameStatus){
+        audio = new Audio("{% static "sound/growTree.mp3" %}");
+        audio.play();
+        console.log(document.getElementById('garden').style);
+        var box = document.createElement('div');
+        box.setAttribute('class','box');
+        box.style.top = 500 + "px";;
+        box.style.left = ev.clientX + "px";;
+        document.getElementById('garden').append(box);
+        var stem = document.createElement('div');
+        stem.setAttribute('class', 'stem');
+        box.append(stem);
+        console.log(stem);
+        for (var i=1; i<7; i++){
+            var line = document.createElement('div');
+            line.setAttribute('class','line');
+            var leaf = document.createElement("div");
+            leaf.setAttribute('class', 'leaf leaf0' + i);
+            leaf.append(line);
+            stem.appendChild(leaf);
+        }
+        stem.classList.add("rain");
+        console.log(stem);
+        setTimeout(function(){
+            stem.classList.remove("rain");
+        },1200);
+        airPollution = airPollution - 0.05
+        this.setAir(airPollution);
+    }
+
+}
+
+
+// get last game id from database.
+function getLastGame(){
+
+}
+
+// If game is over
+function isGameOver(){
+    if (this.animalLife <= 0 || this.animal_hunger <= 0){
+        return true;
+    }
+    return false;
+}
+
+function overFunction() {
+    alert("Game Over!");
+}
+
+// update database
+function upDateDatabase(fund){       
+    var url = "{% url "puzzle:score" %}"
+    $.ajax({
+        url:url,
+        type:"POST",
+        data:{'csrfmiddlewaretoken' : "{{  csrf_token  }}",'username':'{{request.user.username}}',"score":fund},
+        success: function(result){}
+    });
+    endTime = Date.now();
+    console.log(startTime);
+    console.log(endTime);
+    // game_id, start_time, end_time, user_id, animal_id, money
+}
+
+function startGame(){
+    if (gameStatus){
+        alert("A game has already started!");
+    }
+    else{
+        gameStatus = true;
+        startTime = Date.now();
+        myVar = setInterval(myTimer, 8000);
+    }
+}
+
+function setInitial(){
+    animalLife = 1;
+    animal_hunger = 1;
+    airPollution = 0;
+    setLife(animalLife);
+    setHunger(animal_hunger);
+    setSky();
+    setAir(airPollution);
+    setFoodList();
+    loadAnimal();
+    // startTime = Date.now();
+}
+
+// set sky div
+function setSky(){
+    var sky = document.createElement('div');
+    sky.setAttribute('class','sky');
+    sky.setAttribute('id','sky');
+    document.getElementById('garden').appendChild(sky);
+}
+
+
+// set FoodList
+function setFoodList(){
+    // get food images and food ids from database
+    foodList = new Array()
+    var i = 0;
+    {% for each in food%}
+        foodList[i] = "{{MEDIA_URL}}{{each.food_img}}"
+        i+=1;
+    {% endfor %}
+
+    var table = document.getElementById('foodTable');
+    for (var i = 0; i < foodList.length; i++){
+        var td = document.createElement('td');
+        var imgElem = document.createElement('img');
+        imgElem.src = foodList[i];
+        imgElem.draggable = 'true';
+        imgElem.addEventListener('dragstart',function(event){
+            drag(event);
+            event.dataTransfer.setData("Text", event.target.id);
+        });
+        // imgElem.ondragstart = drag(imgElem);
+        imgElem.setAttribute('id', 'imgFood' + i);
+        td.appendChild(imgElem);
+        table.appendChild(td);
+    }
+}
+
+// load animal grow page
+function loadAnimal(){
+    // get animal picture using animal_id
+    let pic = getAnimalPic();
+    var elem = document.createElement("img");
+    document.getElementById("garden").appendChild(elem);
+    elem.src = pic;
+    elem.style.display = 'block';
+    elem.style.marginLeft = '300px';
+    elem.style.marginTop = '150px';
+}
+
+// reload blank page
+function reloadPage(){
+    clearPage();
+    setInitial();
+}
+
+// clear last Page
+function clearPage(){
+    // animal
+    // plastic bag
+    var myNode = document.getElementById("garden");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+    // food -- clear table
+    document.getElementById('foodTable').innerHTML = '';
+}
+
+// set life process bar
+function setLife(life){
+    var elem = document.getElementById("lifeBar");
+    elem.style.width = 152*life + "px";
+    // console.log("life: ", life);
+    // console.log("width: ", 152*life);
+    if (152*life < 20){
+        elem.style.backgroundColor = 'red';
+    }
+    else{
+        elem.style.backgroundColor = 'green';
+    }
+}
+
+// set hunger process bar
+function setHunger(hunger){
+    var elem = document.getElementById("hungerBar");
+    elem.style.width = 152*hunger + "px";
+    if (152*hunger < 20){
+        elem.style.backgroundColor = 'red';
+    }
+    else{
+        elem.style.backgroundColor = 'green';
+    }
+}
+
+// get animal picture
+function getAnimalPic() {
+
+        imageArray = new Array();
+        var i = 0;
+        // only pass one image(queryset) from db so still need for loop
+        {% for each in specieimg %}
+        imageArray[i] = "{{MEDIA_URL}}{{each.image}}"
+        i += 1
+        {% endfor %}
+        var pic = imageArray[0];
+
+        return pic;
+    }
+
+
+function myTimer() {
+    animalLife = animalLife - 0.1;
+    animal_hunger = animal_hunger - 0.1;
+    setLife(animalLife);
+    setHunger(animal_hunger);
+    setPlastic();
+    setAir();
+    // if (animalLife == 0.9){
+    //     myStopFunction();
+    // }
+    if (isGameOver()){
+        overFunction();
+        endGame();
+    }
+}
+
+function myStopFunction() {
+  clearInterval(myVar);
+  }
+
+
+function setAir(){
+    // console.log('sky', document.getElementById('sky').style.opacity);
+    airPollution = airPollution + 0.05;
+    document.getElementById('sky').style.opacity = airPollution;
+
+}
+
+// set white pollution
+function setPlastic(){
+    let garden = document.getElementById("garden");
+    let pic = "{% static "images/pollution/bag.png" %}";
+    var imgElem = document.createElement("img");
+    
+    imgElem.src = pic;
+    imgElem.style.position = 'absolute';
+
+    // console.log(garden.offsetWidth)
+    console.log('image width', );
+    imgElem.setAttribute('class','imgElem');
+    imgElem.style.top = Math.round(Math.random() * (garden.offsetHeight - 64)) + garden.offsetTop + "px";
+    imgElem.style.left = Math.round(Math.random() * (garden.offsetWidth - 64)) + garden.offsetLeft + "px";
+    document.getElementById("garden").appendChild(imgElem);
+    // console.log(imgElem);
+}
+
+// update money display
+function updateMoney(fund){
+    document.getElementById('score').innerHTML = fund;
+}
+
+// start game btn
+startBtn = document.getElementById('startBtn');
+console.log(startBtn);
+startBtn.addEventListener('mousedown', function() {
+    console.log("start");
+    startGame();
+});
+
+// end game
+endBtn = document.getElementById('endBtn');
+console.log(endBtn);
+endBtn.addEventListener('mousedown', function() {
+    if (gameStatus){
+        console.log("end");
+        endGame();
+    }
+    else{
+        alert("Start a game first!");
+    }
+});
+
+//endGame
+function endGame(){
+    gameStatus = false;
+    myStopFunction();
+    // reloadPage();
+    upDateDatabase(money);
+    // clearGame();
+    clearPage();
+    console.log("Set initial");
+    setInitial();
+}
+
+// prevent users refresh the page
+window.onbeforeunload = function() {
+    if (gameStatus){
+        return ("A");
+    }
+}
+
+setInitial();
+
+</script>
+</body>
+</html>
+
+
+
+

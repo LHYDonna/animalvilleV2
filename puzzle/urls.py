@@ -1,17 +1,19 @@
-from django.conf.urls import url
-from django.urls import path
-from django.conf import settings
 
-from puzzle.views import(
-        #addresses,
-        photos,
+from django.urls import path,include 
+
+from puzzle.views import(   
+        
         index,
         puzzle_game,
         growing_mode,
         family_mode,
         #zooListView
         #PhotoView
-        pickAnimal
+        pickAnimal,
+        animalGrow,
+        animal,        
+        score,     
+        signup
         )
 
 app_name = 'puzzle'
@@ -22,9 +24,14 @@ urlpatterns = [
     #url(r'^photos/$',photos),
     #path('<int:id>/',PhotoView.as_view(template_name='puzzle/photo.html'),name='photo-detail'),
 	path('puzzle_game/<int:specieId>/', puzzle_game, name='puzzle_game'),    
-	path('growing_mode/',growing_mode, name='growing_mode'),
+	path('animalGrow/',animalGrow, name='animalGrow'),
 	path('family_mode/', family_mode, name='family_mode'),
    path('pickAnimal/',pickAnimal,name='pickAnimal'),
+   path('animal/<int:specieId>/',animal,name='animal'),
+   
+   path('score/',score,name='score'),
+   path('signup/', signup, name='signup'),
+    
    # path('',zooListView.as_view(),name='zoo-list')
    #path('photos',PhotoView.as_view(template_name='puzzle/photo.html'),name='photo-list')
         

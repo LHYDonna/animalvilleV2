@@ -1,0 +1,29 @@
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script>
+
+
+
+{% include 'puzzle/footer.html' %}
+
+<div id ="result">
+</div>
+<script type = "text/javascript">
+var name = sessionStorage.getItem("name");
+var a =$.cookie('simple');
+
+document.getElementById("result").innerHTML = a;
+
+
+
+var url = "{% url "puzzle:score" %}"
+
+
+
+$.ajax({
+    url:url,
+    type:"POST",
+    data:{'csrfmiddlewaretoken' : "{{  csrf_token  }}",'username':'{{request.user.username}}',"score":70},
+    success: function(result){}
+});
+
+</script>

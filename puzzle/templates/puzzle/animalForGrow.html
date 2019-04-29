@@ -1,0 +1,127 @@
+﻿{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pick Animal</title>       
+        
+        <link href="{% static "css/animalForGrow.css" %}" rel="stylesheet" type="text/css"/>
+        <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>        
+        <script src="{% static "js/jquery.cookie.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.SuperSlide.2.1.1.js" %}"></script>
+    </head>
+    <body>
+    {% include 'puzzle/navbar.html' %}
+        <div class="home-banner">
+            <div class="home-banner-box">
+                <div class="home-banner-head">
+                    <h2 id="title">Pick Animal</h2>
+                </div>
+            </div>
+            <div class="home-banner-body">
+                <div class="home-banner-bg"></div>
+                <div class="home-banner-slider">
+                    <div class="home-banner-con">
+                        <div class="home-shadow">
+                            <div class="home-banner-line">
+                                <div class="home-banner-list">
+                                    <div class="item-q"></div>
+                                    <div class="item-q"></div>
+                                    <div class="item-q"></div>
+                                </div>
+                            </div>
+                            <div class="bd">
+                                <ul>
+                                    <li>
+                                        <img  src="{% static "images/animal1.jpg" %}" alt="">
+                                        <div class="home-banner-text">
+                                            <div class="home-title">Black-eared Miner</div>
+                                            <div class="home-text">The black-eared miner (Manorina melanotis) is an endangered honeyeater endemic to mallee woodland in south-eastern Australia.</div>
+                                            <div class="home-button">
+                                                <a id ="1" href="{% url 'puzzle:animal' 1  %}">Start</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                      
+                                        <img src="{% static "images/animal2.jpg" %}" alt="">
+                                        <div class="home-banner-text">
+                                            <div class="home-title">Burramys parvus</div>
+                                            <div class="home-text"> Climate change is a major threat to the possum because as their habitat changes, hibernation patterns alter and food sources become scarcer.</div>
+                                            <div class="home-button"><a id="2" href="{% url 'puzzle:animal' 2  %}">Start</a></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                       
+                                        <img  src="{% static "images/animal3.jpg" %}" alt="">
+                                        <div class="home-banner-text">
+                                            <div class="home-title">Charadrius mongolus</div>
+                                            <div class="home-text">The Lesser Sand Plover is often gregarious during the non-breeding season, when it occurs in small parties or larger flocks of up to several hundred birds, though it sometimes feeds singly</div>
+                                            <div class="home-button"><a id="3" href="{% url 'puzzle:animal' 3  %}">Start</a></div>
+                                        </div>
+                                    </li>
+        								  <li>
+            			
+                                        <img  src="{% static "images/animal4.jpg" %}" alt="">
+                                        <div class="home-banner-text">
+                                            <div class="home-title">Chatham Albatross</div>
+                                            <div class="home-text">They are normally silent, but will emit a harsh buzzing bray when threatened and also during courtship.</div>
+                                            <div class="home-button"><a id="4" href="{% url 'puzzle:animal' 4  %}">Start</a></div>
+                                        </div>
+                                    </li>
+    									  <li>
+        								
+                                        <img  src="{% static "images/animal5.jpg" %}" alt="">
+                                        <div class="home-banner-text">
+                                            <div class="home-title">Potorous longipes</div>
+                                            <div class="home-text">The long-footed potoroo lives in a range of montane forests. It has also been found in the warmer temperate rainforest. This species lives where the soil is constantly moist.</div>
+                                            <div class="home-button"><a id="5" href="{% url 'puzzle:animal' 5  %}">Start</a></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0)" class="prev"></a>
+                    <a href="javascript:void(0)" class="next"></a>
+                </div>
+            </div>
+        </div>
+        
+<script type ="text/javascript">
+var startlock = document.getElementsByClassName("home-button");
+exist = new Array();
+exist[0] = -1;
+for (i=1;i<6;i++){
+    key = eval("'"+i+"'");
+    //document.write($.cookie(key))
+    if ($.cookie(key) == undefined ) {
+        var element = document.getElementById(key);
+        element.style.display = "none";
+        startlock[i-1].insertAdjacentHTML('afterbegin','<img class="lock-btn" src="{% static "images/btn3.png" %}">');
+     }
+}
+
+ // alert when user click lock btn
+  var lockbtn = document.getElementsByClassName("lock-btn")
+  for (i=0;i<lockbtn.length;i++) {
+      lockbtn[i].addEventListener("click", function() {
+      alert("You need to complete the puzzles first")
+  });
+  }
+
+</script> 
+
+<script type="text/javascript">
+    jQuery(".home-banner-slider").slide({
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: false,
+        delayTime: 700
+    });
+</script>
+
+
+    </body>
+</html>;

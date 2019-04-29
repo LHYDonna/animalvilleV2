@@ -1,0 +1,34 @@
+{% load static %}
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+        
+<!--script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script-->
+<script src="{% static "js/jquery.cookie.js" %}"></script>
+<div class="home-button"></div>
+<div class="home-button"></div>
+<div class="home-button"></div>
+<div class="home-button"></div>
+<div class="home-button"></div>
+
+
+<div id ="test"> </div>
+
+<script>
+    $.cookie('a{{ specieId }}', 'test', { expires: 1, path: '/' });
+
+$.cookie('{{specieId}}','pass',{expires:-1,path:'/'});
+var startlock = document.getElementsByClassName("home-button");
+exist = new Array();
+exist[0] = -1;
+for (i=1;i<6;i++){
+    key = eval("'"+i+"'");
+    if ($.cookie(key) == undefined){
+        startlock[i-1].insertAdjacentHTML('afterbegin','<img class="lock-btn" src="{% static "images/btn3.png" %}">');
+    }else if ($.cookie(key) == 'pass'){
+        startlock[i-1].insertAdjacentHTML('afterbegin','<a href="{% url 'puzzle:animal' 5 %}">Start</a>');
+    }
+}
+document.write($.cookie('3'))
+
+
+    document.getElementById("test").innerHTML = $.cookie('a{{specieId}}');
+</script>
