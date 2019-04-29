@@ -9,9 +9,8 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+#import django_heroku
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,10 +24,24 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+
+AWS_ACCESS_KEY_ID = 'AKIA4PM3XNPHCLSUPVYS'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'animalville'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['animalville-game.herokuapp.com','127.0.0.1','www.animalvillage.tk']
 
 
 # Application definition
@@ -40,8 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'puzzle.apps.PuzzleConfig',
-    
+    'puzzle.apps.PuzzleConfig',    
 ]
 
 MIDDLEWARE = [
@@ -119,7 +131,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_REDIRECT_URL = '/puzzle'
+LOGOUT_REDIRECT_URL='/puzzle/'
 
+AUTH_USER_MODEL = 'puzzle.User'
+
+#django_heroku.settings(locals())
+#AUTH_USER_MODEL = 'puzzle.User' 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
