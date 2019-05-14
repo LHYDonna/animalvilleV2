@@ -1,70 +1,85 @@
-{% extends 'puzzle/index.html' %}
-
 {% load static %}
+<html>
 
-{% block content %}
+{% include 'puzzle/navbar.html' %}
+<head>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script>
-<link rel="stylesheet" href="{%static "css/puzzleGame.css" %}">
+
+<link rel="stylesheet" href="{% static "css/puzzleGame.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/style4.css" %}" />
+	</head>
+<body>
 	<div class="Content">
 
-            <div class="header" id="diffiHeader" height="300px" style="margin: 0 auto">  
-                    Simple
-            </div>
-            <div class="process" id="processBar" height="100px" style="margin: 0 auto">  
-                    <div style="width:500px;height:10px;background:#EDEDED;">
-                        <div id="pro" style="background:#FFED04;width:140px;height:10px;"></div>    
-                    </div>
-                    <!-- <div id="demo">
-                        <p id="image" onmouseover="animateScript()" onmouseout="stopAnimate()">
-                        </p>
-                    </div> -->
-            </div>
-            <!-- <div id="img" style="margin: 0 auto;width: 550px;height: 550px;color: yellow;" > -->
-            
-            <div id="img" class="game" style="margin: 0 auto;width: 550px;height: 550px ;color: orange;">
-                <div class="btn-group" style="left:20px;top:-30px" id="GameLevelButton">
-                        <button id="btn2">Simple</button>
-                        <button id="btn3">Medium</button>
-                        <button id="btn4">Difficult</button>
-                </div>                  
-                <div>
-                        <div id = 'content' style="grid-template-columns: 50% 50%">
-                                <table id="tb" cellpadding="0px" cellspacing="5px" width="529px" height="529px">
-                                    </table>
-                        </div>                        
-                        <div class="btn-group" style="left:30px;" id="GameButton">
-                                <button id="startGame">Start</button>
-                                <button id="restartGame">Reset</button>
-                                <button id="nextLevel">Next</button>
-                                <button id="menu" onclick="window.location.href='/puzzle/pickAnimal/'">Menu</button>
-                                <button id="hint">Hint</button>
-                        </div>
-                </div>
-            </div>
-        <div>
-                <button id="helpBtn">Help</button>
-                <div id='helpDiv' style="width: 380px; height: 380px; display: none"> 
-                    <li>1. Press start to start the game.</li>
-                    <li>2. Press reset to reset the game.</li>
-                    <li>3. Press next to go to next level.</li>
-                    <li>4. Jump to lower level by press the difficulty buttons.</li>
-                    <li>5. Press hint to get some hints when you stuck.</li>
-                    <li>6. Press menu to go back to animal list page.</li>  
-                </div>
-        </div>
-        <div id="ac-wrapper" style='display:none'>
-            <div id="popup">
-                <center>
-                     <p id="p">Popup Content Here</p>
-                                              
-                    <input type="submit" name="submit" value="Got it!" onClick="PopUp('hide')" />
-                </center>
-            </div>
-        </div>
-    </div>
+		<div class="header" id="diffiHeader" height="300px" style="margin: 0 auto">
+			Simple
+		</div>
+		<div class="process" id="processBar" height="100px" style="margin: 0 auto">
+			<div style="width:500px;height:10px;background:#EDEDED;">
+				<div id="pro" style="background:#FFED04;width:140px;height:10px;"></div>
+			</div>
+			<!-- <div id="demo">
+				<p id="image" onmouseover="animateScript()" onmouseout="stopAnimate()">
+				</p>
+			</div> -->
+		</div>
+		<!-- <div id="img" style="margin: 0 auto;width: 550px;height: 550px;color: yellow;" > -->
+
+		<div id="img" class="game" style="margin: 0 auto;width: 550px;height: 500px ;color: orange;">
+			<div class="btn-group" style="left:20px;top:-30px" id="GameLevelButton">
+				<button id="btn2">Simple</button>
+				<button id="btn3">Medium</button>
+				<button id="btn4">Difficult</button>
+			</div>
+			<div>
+				<div id='content' style="grid-template-columns: 50% 50%">
+					<table id="tb" cellpadding="0px" cellspacing="5px" width="529px" height="529px"></table>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="btn-group" style="left:700px;" id="GameButton">
+			<button id="startGame">Start</button>
+			<button id="restartGame">Reset</button>
+			<button id="nextLevel">Next</button>
+			<button id="menu" onclick="window.location.href='/puzzle/pickAnimal/'">Menu</button>
+			<button id="hint">Hint</button>
+		</div>
 		
-<script type= "text/javascript">
+
+			<button id="trigger-overlay" type="button">Help</button>
+			<div class="overlay overlay-slidedown">
+				<button type="button" class="overlay-close">
+					Close
+				</button>
+				<nav>
+					<ul>
+						<li><a>1. Press start to start the game.</a></li>
+						<li><a>2. Press reset to reset the game.</a></li>
+						<li><a>3. Press next to go to next level.</a></li>
+						<li><a>4. Jump to lower level by press the difficulty buttons.</a></li>
+						<li><a>5. Press hint to get some hints when you stuck.</a></li>
+						<li><a>6. Press menu to go back to animal list page.</a></li>
+					</ul>
+				</nav>				
+			</div>
+			
+		
+		<div id="ac-wrapper" style='display:none'>
+			<div id="popup">
+				<center>
+					<p id="p">Popup Content Here</p>
+					<input type="submit" name="submit" value="Got it!" onClick="PopUp('hide')" />
+				</center>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
 {% if request.user.is_authenticated %}
     var money = {{request.user.user_score}};
 {% else %}
@@ -106,13 +121,13 @@ function animateScript() {
   var position = 256; //start position for the image slicer
   const interval = 100; //100 ms of interval for the setInterval()
   const diff = 256; //diff as a variable for position offset
-  
+
   tID = setInterval(() => {
-  
+
     document.getElementById("image").style.backgroundPosition =
       `-${position}px 0px`;
     //we use the ES6 template literal to insert the variable "position"
-    
+
     if (position < 1536) {
       position = position + diff;
     }
@@ -121,9 +136,9 @@ function animateScript() {
       position = 256;
     }
     //reset the position to 256px, once position exceeds 1536px
-    
+
   }, interval); //end of setInterval
-} 
+}
 
 // increase process bar
 function upDateBar(){
@@ -145,22 +160,22 @@ function animalInfor() {
         var message;
         if (level == 2) {
             message = "{{easy}}";
-            document.getElementById("p").innerHTML = message;  
-        }        
+            document.getElementById("p").innerHTML = message;
+        }
         else if (level == 4){
             message = "{{diff}}";
             document.getElementById("p").innerHTML = message;
-        }        
+        }
         else if (level == 3){
             console.log("thihs is medium");
-            var p = document.getElementById("p")            
-            document.getElementById("p").innerHTML = ('beforeend','<h1>This is what they normally like to eat</h1><img src={{MEDIA_URL}}{{medium}}/>');
+            var p = document.getElementById("p")
+            document.getElementById("p").innerHTML = ('beforeend','<h1>what they like to eat: </h1><img src={{MEDIA_URL}}{{medium}} style="height:150px;width:150px"/>');
         }
-                   
+
         PopUp('show');
  }
- 
-// pop up the animal information after puzzle success 
+
+// pop up the animal information after puzzle success
 function PopUp(hideOrshow) {
     if (hideOrshow == 'hide') document.getElementById('ac-wrapper').style.display = "none";
     else document.getElementById('ac-wrapper').removeAttribute('style');
@@ -177,7 +192,7 @@ function isWin() {
     return true;
 }
 
-function isSuccess(){    
+function isSuccess(){
     var success = 0;
     for (var i=0; i<td.length; i++){
         console.log(td[i]);
@@ -188,8 +203,8 @@ function isSuccess(){
         }
     }
     if (success == level*level && done){
-        
-        
+
+
         console.log(success);
         return true;
     }
@@ -263,7 +278,7 @@ function contains(arr, obj) {
 }
 
 
-// create temperate object 
+// create temperate object
 // if current overlay is over the half area of the target cell
 // return target number
 function getOverlay(_hover) {
@@ -301,13 +316,13 @@ function initTable(_col, _row) {
         td[i].style.position = "absolute";
         td[i].style.left = i % _row * (length + table_cellSpacing) + (parseInt(i % _row / _row) + 1) * Margin + leftSiding +"px";
         td[i].style.top = parseInt(i / _col) * (length + table_cellSpacing) + height + "px";
-        
+
         let trueId = td[i].getAttribute('trueId');
         if (!trueId){
             // backgroud graph location
             td[i].setAttribute('class', 'img' + i);
             td[i].style.backgroundPosition = (-Math.abs((i % _row) - 0))*length +'px ' + (-Math.abs(parseInt(i / _row) - 0))*length + 'px';
-            
+
             // table location
             makeTable[i] = new Object();
             makeTable[i].left = parseInt(td[i].style.left) + leftSiding;
@@ -342,7 +357,7 @@ function random_disorder() {
         let length = parseInt((parseInt(document.getElementsByTagName('table')[0].getAttribute('width'))-(2+level)*table_cellSpacing)/level);
 
         td[i].style.backgroundPosition = (-Math.abs((class_id % level) - 0))*length +'px ' + (-Math.abs(parseInt(class_id / level) - 0))*length + 'px';
-        
+
         // table location
         makeTable[i] = new Object();
         makeTable[i].left = parseInt(td[i].style.left);
@@ -449,7 +464,7 @@ function drag(obj, mouseX, mouseY, successAction) {
                 }
                 if (level >= 4) {
                     $.cookie('{{specie_id}}', 'pass', { expires: 7, path: '/' });
-                    console.log('store');                    
+                    console.log('store');
                     console.log($.cookie('{{specie_id}}'));
                 }
                 if ($.cookie('highest{{ specie_id }}') != undefined) {
@@ -460,11 +475,11 @@ function drag(obj, mouseX, mouseY, successAction) {
                   }
                 else {
             $.cookie('highest{{ specie_id }}', level, { expires: 7, path: '/' });
-                }                
-                console.log("cookie:"+$.cookie('highest{{ specie_id }}'));                
-                                
+                }
+                console.log("cookie:"+$.cookie('highest{{ specie_id }}'));
+
                 flashClock;
-                
+
         }
         };
     }
@@ -472,14 +487,14 @@ function drag(obj, mouseX, mouseY, successAction) {
 
 
 
-function upDateDatabase(money){       
+function upDateDatabase(money){
     var url = "{% url "puzzle:score" %}"
     $.ajax({
         url:url,
         type:"POST",
         data:{'csrfmiddlewaretoken' : "{{  csrf_token  }}",'username':'{{request.user.username}}',"score":money},
         success: function(result){}
-    });    
+    });
 }
 //  hint button
 
@@ -526,23 +541,23 @@ document.getElementById('startGame').addEventListener('click', function() {
 
 // Next game
     document.getElementById('nextLevel').addEventListener('click', function () {
-            
+	console.log('next level')
     var highest = $.cookie('highest{{ specie_id }}');
-    
-    if (highest>=level) {        
-        //upLevel();           
+
+    if (highest>=level) {
+        //upLevel();
         createTable();
         initTable();
         upDateBar();
         // changeBtnColor();
         document.getElementById("diffiHeader").innerHTML = difficultyList[level-2];
-        
+
     }else if (isSuccess()) {
-        if (level == 4){ 
+        if (level == 4){
             animalSuccessFunction();
         }
         if (level < 4) {
-            //upLevel();           
+            //upLevel();
             createTable();
             initTable();
             upDateBar();
@@ -550,30 +565,31 @@ document.getElementById('startGame').addEventListener('click', function() {
             document.getElementById("diffiHeader").innerHTML = difficultyList[level-2];
         }
     } else {
-        unCompleteFunction; 
+        unCompleteFunction;
     }
-    
- });
+
+	});
+	/**
  // help information
  console.log(document.getElementById('helpBtn'));
  document.getElementById('helpBtn').addEventListener('click',function(){
     console.log('click');
     var helpBox = document.getElementById('helpDiv');
     if (helpBox.style.display == "none"){
-        helpBox.style.display = "block"; 
+        helpBox.style.display = "block";
     }
     else{
         helpBox.style.display = "none";
     }
  });
-
+ */
 //Level should be get from database
 //Go to simple game
     document.getElementById('btn2').addEventListener('click', function () {
 
      var highest = $.cookie('highest{{ specie_id }}');
         console.log(highest);
-    if (highest >= 2) { 
+    if (highest >= 2) {
         level = 2;
         mainImge = imageList[level-2];
         createTable();
@@ -594,7 +610,7 @@ document.getElementById('startGame').addEventListener('click', function() {
         level = 3;
         mainImge = imageList[level-2];
         createTable();
-        initTable();        
+        initTable();
         upDateBar();
         document.getElementById("diffiHeader").innerHTML = difficultyList[1];
     }
@@ -607,7 +623,7 @@ document.getElementById('startGame').addEventListener('click', function() {
  document.getElementById('btn4').addEventListener('click',function(){
      var highest = $.cookie('highest{{ specie_id }}');
     console.log("{{specie_id}}");
-    if (highest >= 4) { 
+    if (highest >= 4) {
         level = 4
         mainImge = imageList[level-2];
         createTable();
@@ -634,12 +650,18 @@ var unCompleteFunction = function() {
 };
 
 // Congradulation message
-var animalSuccessFunction = function() {    
+var animalSuccessFunction = function() {
     // get data from database by specie id
     alert("Done");
 };
     createTable();
-   
+
 initTable();
 </script>
-{% endblock %}
+
+
+<script src="{%static "js/help/mousetrap.min.js" %}"></script>
+<script src="{%static "js/help/modernizr.custom.js" %}"></script>
+<script src="{%static "js/help/classie.js" %}"></script>
+<script src="{%static "js/help/cmdscriptmin.js" %}"></script>
+	

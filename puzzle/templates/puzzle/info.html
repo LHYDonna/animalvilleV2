@@ -1,0 +1,138 @@
+﻿{% load static %}
+<!doctype html>
+<html lang="en-US">
+
+<head>
+	<meta charset="utf-8" />
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<link href="{% static "images/favicon.png" %}" rel="icon" type="image/png">
+	<title>Modern - Bootstrap Cards</title>
+	<!-- Google Font Roboto -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,700" rel="stylesheet">
+	
+	<!-- Bootstrap -->
+	
+	
+	
+	<!-- Cards style -->
+	<link rel="stylesheet" href="{% static "css/info/cards-style.css" %}" type="text/css" />	
+	
+</head>
+<body>
+	{% include 'puzzle/navbar.html' %}
+<main>
+	<article class="col-md-12">
+
+		<h3>Plain Cards</h3>
+		<div class="cards-2 section-gray">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="card card-blog">
+							<div class="card-image">
+								<a href="#"> <img class="img img-raised" src="{% static "images/animal1.jpg" %}"> </a>
+								<div class="ripple-cont"></div>
+							</div>
+							<div class="table">
+								<!--<h6 class="category text-info">Black-earned Miner</h6>-->
+								<h4 class="card-caption">
+									<a href="#" onClick="read1()">Black-earned Miner</a>
+								</h4>
+								<p class="card-description">Hi! My name is Black-earned Miner. I probably is the rarest and most endangered bird in Australia. I like eat arthropods including bugs,caterpillars and spiders.I also eat seeds and fruit.  </p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-blog">
+							<div class="card-image">
+								<a href="#" > <img class="img img-raised" src="{% static "images/animal2.jpg" %}"> </a>
+							</div>
+							<div class="table">
+								
+								<h4 class="card-caption">
+									<a href="#" onClick="read2()">Mountain Pygmy Possum</a>
+								</h4>
+								<p class="card-description">Hi! My name is Mountain Pygmy Possum. I Lives on the ground in rocky areas. I slept up to seven months from autumn until the snow melts in spring. I eat invertebrates such as caterpillars, beetles, spiders.  </p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-blog">
+							<div class="card-image">
+								<a href="#"> <img class="img img-raised" src="{% static "images/animal3.jpg" %}"> </a>
+							</div>
+							<div class="table">
+								
+								<h4 class="card-caption">
+									<a href="#" onClick="read3()">Charadrius mongolus</a>
+								</h4>
+								<p class="card-description">Hi! My common name is Lesser Sand Plover. I like to eat insects, crustaceans, molluscs and marine worms.You may find me and my friends along the coast and I am very timid, please don't bother me. </p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-blog">
+							<div class="card-image">
+								<a href="#"> <img class="img img-raised" src="{% static "images/animal4.jpg" %}"> </a>
+							</div>
+							<div class="table">
+								
+								<h4 class="card-caption">
+									<a href="#" onClick="read4()">Chatham Albatross</a>
+								</h4>
+								<p class="card-description">Hi! My name is Chatham Albatross.I like to eat squid,fish and octopus. The most threat to me and my friends is injury arising from interactions with human fishing activities.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-blog">
+							<div class="card-image">
+								<a href="#"> <img class="img img-raised" src="{% static "images/animal5.jpg" %}"> </a>
+							</div>
+							<div class="table">
+								
+								<h4 class="card-caption">
+									<a href="#" onClick="read5()">Potorous longipes</a>
+								</h4>
+								<p class="card-description">Hi! My common name is Long-footed Potoroo.I am extremely rare now. I like to live in moist forest because I really like to eat fungi.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</body>
+
+</html>
+<script src="{% static "js/jquery-2.1.1.min.js" %}" type="text/javascript"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	function read1() {
+		var wordsound = new Audio("{% static "sound/word1.mp3" %}");
+		wordsound.play();
+	}
+
+	function read2() {
+		var wordsound = new Audio("{% static "sound/word2.mp3" %}");
+		wordsound.play();
+	}
+
+	function read3() {
+		var wordsound = new Audio("{% static "sound/word3.mp3" %}");
+		wordsound.play();
+	}
+
+	function read4() {
+		var wordsound = new Audio("{% static "sound/word4.mp3" %}");
+		wordsound.play();
+	}
+
+	function read5() {
+		var wordsound = new Audio("{% static "sound/word5.mp3" %}");
+		wordsound.play();
+	}
+
+</script>

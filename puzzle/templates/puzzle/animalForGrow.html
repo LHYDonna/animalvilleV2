@@ -4,8 +4,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Pick Animal</title>       
-        
+        <title>Grow Mode</title> 
         <link href="{% static "css/animalForGrow.css" %}" rel="stylesheet" type="text/css"/>
         <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>        
         <script src="{% static "js/jquery.cookie.js" %}"></script>
@@ -16,7 +15,7 @@
         <div class="home-banner">
             <div class="home-banner-box">
                 <div class="home-banner-head">
-                    <h2 id="title">Pick Animal</h2>
+                    <h2 id="title">Select the animal to start</h2>
                 </div>
             </div>
             <div class="home-banner-body">
@@ -47,7 +46,7 @@
                                       
                                         <img src="{% static "images/animal2.jpg" %}" alt="">
                                         <div class="home-banner-text">
-                                            <div class="home-title">Burramys parvus</div>
+											<div class="home-title">Mountain Pygmy Possum </div>
                                             <div class="home-text"> Climate change is a major threat to the possum because as their habitat changes, hibernation patterns alter and food sources become scarcer.</div>
                                             <div class="home-button"><a id="2" href="{% url 'puzzle:animal' 2  %}">Start</a></div>
                                         </div>
@@ -56,7 +55,7 @@
                                        
                                         <img  src="{% static "images/animal3.jpg" %}" alt="">
                                         <div class="home-banner-text">
-                                            <div class="home-title">Charadrius mongolus</div>
+											<div class="home-title">Lesser Sand Plover</div>
                                             <div class="home-text">The Lesser Sand Plover is often gregarious during the non-breeding season, when it occurs in small parties or larger flocks of up to several hundred birds, though it sometimes feeds singly</div>
                                             <div class="home-button"><a id="3" href="{% url 'puzzle:animal' 3  %}">Start</a></div>
                                         </div>
@@ -65,7 +64,7 @@
             			
                                         <img  src="{% static "images/animal4.jpg" %}" alt="">
                                         <div class="home-banner-text">
-                                            <div class="home-title">Chatham Albatross</div>
+											<div class="home-title">Chatham Albatross</div>
                                             <div class="home-text">They are normally silent, but will emit a harsh buzzing bray when threatened and also during courtship.</div>
                                             <div class="home-button"><a id="4" href="{% url 'puzzle:animal' 4  %}">Start</a></div>
                                         </div>
@@ -74,7 +73,7 @@
         								
                                         <img  src="{% static "images/animal5.jpg" %}" alt="">
                                         <div class="home-banner-text">
-                                            <div class="home-title">Potorous longipes</div>
+											<div class="home-title">Long-footed Potoroo</div>
                                             <div class="home-text">The long-footed potoroo lives in a range of montane forests. It has also been found in the warmer temperate rainforest. This species lives where the soil is constantly moist.</div>
                                             <div class="home-button"><a id="5" href="{% url 'puzzle:animal' 5  %}">Start</a></div>
                                         </div>
@@ -88,7 +87,7 @@
                 </div>
             </div>
         </div>
-        
+ {% include 'puzzle/footer.html' %}      
 <script type ="text/javascript">
 var startlock = document.getElementsByClassName("home-button");
 exist = new Array();
@@ -121,7 +120,7 @@ for (i=1;i<6;i++){
         delayTime: 700
     });
 </script>
-
+		
 
     </body>
 </html>;

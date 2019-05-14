@@ -1,4 +1,4 @@
-
+﻿
 {% load static %}  
 <head>
   
@@ -7,18 +7,38 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyBHChnZJltuf_N8DQgfggzusDTCvx2RqdM" 
+          type="text/javascript"></script>
+
+	<style>
+       /* Set the size of the div element that contains the map */
+      #map {
+        height: 600px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+    </style>
+
+
 </head>
 {% block content %}
-
-
-<div class="jumbotron text-center">
-  <h1>Zoo Information</h1>
-  <p>Find the zoo information in here and visit with your family!</p> 
-</div>
 
 {% include 'puzzle/navbar.html' %}
 <title>Family Mode</title>
 
+
+
+<body style="background-color:powderblue;">
+	<div class="jumbotron text-center">
+	  <h1>Zoo Information</h1>
+	  <p>Find the zoo information in here and visit with your family!</p> 
+	</div>
+    <h3 style="text-align: center;">Zoo Locations and your Location</h3>
+    <!--The div element for the map -->
+     <div id="map"></div>
+	 <p id="congrat"></p>
+	 <p id="score"></p>
+	 
+	 
 <article class="box highlight">
 
 	{% for each in zooList %}
@@ -31,11 +51,131 @@
 	        <li> <b>City</b> : {{each.zoo_city}} </li>
 	        <li> <b>Suburb</b> : {{each.zoo_suburb}} </li>
 	        <li> <b>Post Code</b> : {{each.zoo_post}} </li>
+			<li> <b>Address</b> : {{each.zoo_address}} </li>
 	        <li> <b>Open Time</b> : <td>{{each.zoo_open | date:"H:i:s"}}AM </td></li>
 	        <li> <b>Close Time</b> : <td>{{each.zoo_close | date:"H:i:s"}}PM </td> </li>
 	    </p>
 	 </div>
 	   
     {% endfor %}
-     </article>	
+</article>	
+	 
+	 
+<script type="text/javascript">
+function upDateDatabase(money){       
+    var url = "{% url "puzzle:score" %}"
+    $.ajax({
+        url:url,
+        type:"POST",
+        data:{'csrfmiddlewaretoken' : "{{  csrf_token  }}",'username':'{{request.user.username}}',"score":money},
+        success: function(result){}
+    });    
+}
+
+    var locations = [
+      ['Melbourne Zoo', -37.784135, 144.951547, 4],
+      ['Ballarat Wildlife Park', -37.569857, 143.89275, 5],
+      ['Halls Gap Zoo', -37.143778, 142.565288, 3],
+      ['Healesville Sanctuary', -37.683743, 145.531075, 2],
+      ['Jirrahlinga Koala Wildlife Sanctuary', -38.2653476, 144.4814748, 1],
+	  ['kyabram fauna park', -36.321458, 145.045704, 1],
+	  ['Mansfield Zoo', -37.127303, 146.132181, 1],
+	  ['Moonlit Sanctuary Wildlife Conservation Park', -38.211512, 145.250802, 1],
+	  ['Werribee Open Range Zoo', -37.922624, 144.667359, 1]
+    ];
+  
+var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+
+
+function success(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+}
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+navigator.geolocation.getCurrentPosition(success, error, options);
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+				if (typeof(Number.prototype.toRad) === "undefined") {
+				  Number.prototype.toRad = function() {
+					return this * Math.PI / 180;
+				  }
+				}
+				for (i = 0; i < locations.length; i++) {
+					var lat2 = locations[i][1];
+					var lat1 = position.coords.latitude;
+					var lon1 = position.coords.longitude;
+					var lon2 = locations[i][2];
+					var φ1 = lat1.toRad(), φ2 = lat2.toRad(), Δλ = (lon2-lon1).toRad(), R = 6371e3; // gives d in metres
+					var d = Math.acos( Math.sin(φ1)*Math.sin(φ2) + Math.cos(φ1)*Math.cos(φ2) * Math.cos(Δλ) ) * R;
+					if (d < 10000) {
+					  {% if request.user.is_authenticated %}
+							var money = {{request.user.user_score}};
+						{% else %}
+							var money = 100;
+						{% endif %}
+						document.getElementById("congrat").innerHTML = "Congragulation you have reach " + locations[i][0];
+						document.getElementById("score").innerHTML = "Your current score is " + money;
+						console.log(d);
+						console.log(money);
+						upDateDatabase(money+100);
+					}
+				}
+
+            var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+            var infowindow = new google.maps.InfoWindow({
+                map: map,
+                position: geolocate,
+                content:
+                    '<p>Your Current location</p>' +
+                    '<p>Latitude: ' + position.coords.latitude + '</p>' +
+                    '<p>Longitude: ' + position.coords.longitude + '</p>'
+            });
+            map.setCenter(geolocate);
+        });
+
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 7,
+      center: new google.maps.LatLng(-37.784135, 144.951547),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+	
+  </script>
+
+  </body>
+
 {% endblock %}
+
+
+

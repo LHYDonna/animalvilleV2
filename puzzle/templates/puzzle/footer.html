@@ -1,214 +1,99 @@
-<!--This is the base template only contains header and footer.-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-<style type="text/css">
-
- html,body {
-        margin:0px;
-        height:100%;
-    }
-   
-.footer-distributed{
-
-	background-color: #292c2f;
-	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
-	box-sizing: border-box;
-	width: 100%;
-	text-align: left;
-	font: bold 16px sans-serif;
-	position:absolute;
-	bottom:0;
-	width:100%;
-	padding: 20px 30px;
-	margin-top: 50px;
+{% load static %}
+ <link rel="stylesheet" href="{% static "css/footer1.css" %}">
+<link rel="stylesheet" href="{% static "css/footer2.css" %}">
+    <!-- footer version 1 -->
+    <div class="spacer"></div>
     
-}
-
-.footer-distributed .footer-left,
-.footer-distributed .footer-center,
-.footer-distributed .footer-right{
-	display: inline-block;
-	vertical-align: top;
-}
-
-/* Footer left */
-
-.footer-distributed .footer-left{
-	width: 40%;
-}
-
-/* The company logo */
-
-.footer-distributed h3{
-	color:  #ffffff;
-	font: normal 36px 'Cookie', cursive;
-	margin: 0;
-}
-
-.footer-distributed h3 span{
-	color:  #5383d3;
-}
-
-/* Footer links */
-
-.footer-distributed .footer-links{
-	color:  #ffffff;
-	margin: 10px 0 12px;
-	padding: 0;
-}
-
-.footer-distributed .footer-links a{
-	display:inline-block;
-	line-height: 1.8;
-	text-decoration: none;
-	color:  inherit;
-}
-
-.footer-distributed .footer-company-name{
-	color:  #8f9296;
-	font-size: 14px;
-	font-weight: normal;
-	margin: 0;
-}
-
-/* Footer Center */
-
-.footer-distributed .footer-center{
-	width: 35%;
-}
-
-.footer-distributed .footer-center i{
-	background-color:  #33383b;
-	color: #ffffff;
-	font-size: 25px;
-	width: 38px;
-	height: 30px;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 42px;
-	margin: 10px 15px;
-	vertical-align: middle;
-}
-
-.footer-distributed .footer-center i.fa-envelope{
-	font-size: 17px;
-	line-height: 38px;
-}
-
-.footer-distributed .footer-center p{
-	display: inline-block;
-	color: #ffffff;
-	vertical-align: middle;
-	margin:0;
-}
-
-.footer-distributed .footer-center p span{
-	display:block;
-	font-weight: normal;
-	font-size:14px;
-	line-height:2;
-}
-
-.footer-distributed .footer-center p a{
-	color:  #5383d3;
-	text-decoration: none;;
-}
-
-
-/* Footer Right */
-
-.footer-distributed .footer-right{
-	width: 20%;
-}
-
-.footer-distributed .footer-company-about{
-	line-height: 20px;
-	color:  #92999f;
-	font-size: 13px;
-	font-weight: normal;
-	margin: 0;
-}
-
-.footer-distributed .footer-company-about span{
-	display: block;
-	color:  #ffffff;
-	font-size: 14px;
-	font-weight: bold;
-	margin-bottom: 20px;
-}
-
-.footer-distributed .footer-icons{
-	margin-top: 25px;
-}
-
-.footer-distributed .footer-icons a{
-	display: inline-block;
-	width: 35px;
-	height: 35px;
-	cursor: pointer;
-	background-color:  #33383b;
-	border-radius: 2px;
-
-	font-size: 20px;
-	color: #ffffff;
-	text-align: center;
-	line-height: 35px;
-
-	margin-right: 3px;
-	margin-bottom: 5px;
-}
-
-.container{
-    margin-left: 20px;
-}
-
-</style>
-<body>
-<div id="container">
-    <footer class="footer-distributed">
-
-			    <div class="footer-left">
-
-				    <h3>Empresa</h3>
-
-				    <p class="footer-links">
-					    <a href="#">Home</a>
-					    ·
-					    <a href="#">About</a>
-					    ·
-					    <a href="#">Faq</a>
-					    ·
-					    <a href="#">Contact</a>
-				    </p>
-
-				
-			    </div>
-
-			    <div class="footer-center">
-
-				    <div>
-					    <i class="fa fa-map-marker"></i>
-					    <p><span>Monash University</span> Melbourne, Australia</p>
-				    </div>
-
-
-			    </div>
-
-			    <div class="footer-right">
-
-				    <p class="footer-company-about">
-					    <span>About the Project</span>
-					    This educational game website is made by Empresa. We hope to provide a great platform for children to 
-					    learn endangered species hence increasing their awareness of endangered species protection.
-				    </p>
-
-				
-
-			    </div>
-
-    </footer>
-</div>
-</body>
-</html>
-
-	
+    
+    <!-- footer section start -->
+        <footer class="xs-footer-section">
+            <!-- footerTop section -->
+            <div class="xs-footerTop">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 footer-widget footer-description">
+                    <h2>Our Mission</h2>
+                    <p>We hope to provide a great platform for children to learn endangered species hence increasing their awareness of endangered species protection.</p>
+                    <ul class="xs-social-list">
+                        <li><a href="" class="color-facebook"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="" class="color-twitter"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="" class="color-dribbble"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a href="" class="color-pinterest"><i class="fa fa-pinterest"></i></a></li>
+                        <li><a href="" class="color-slack"><i class="fa fa-slack"></i></a></li>
+                    </ul><!-- .xs-social-list END -->
+                </div><!-- .footer-widget END -->
+                
+                <div class="col-lg-2 col-md-6 footer-widget">
+                    
+                </div><!-- .footer-widget END -->
+                <div class="col-lg-2 col-md-6 footer-widget">
+                   
+                    
+                </div><!-- .footer-widget END -->
+            </div><!-- .row END -->
+        </div><!-- .container END -->
+    </div>		<!-- End footerTop section -->
+            
+            <!-- footerBottom section -->
+            <div class="xs-footerBottom">
+        <!-- footer svg shape -->
+        <svg class="xs-svg-shape-bg" x="0px" y="0px" viewBox="0 0 1920 810.4" preserveAspectRatio="none">
+        <path class="xs-path" d="M1920,43.4c-48.8,7.2-88.8,41.6-104,87.3c-50.2,5.4-91.8,39.4-108.1,85.4c-68,3.7-122.1,59.8-122.4,128.7
+        c-17.9,17.2-31,39.4-36.7,64.5c-20.1-12.9-44.1-20.4-69.8-20.4c-22.3,0-43.2,5.6-61.5,15.5c-18.3-9.9-39.2-15.5-61.5-15.5
+        c-33.2,0-63.4,12.5-86.3,33c-7.4-1.3-14.9-2-22.7-2c-26.8,0-51.7,8.1-72.3,22.1c-19.7-12.1-42.9-19.1-67.7-19.1
+        c-23.2,0-45,6.1-63.9,16.8c-23.7-26.9-58.4-43.8-97.1-43.8c-28.1,0-54.1,9-75.3,24.2c-18.6-10.3-39.9-16.2-62.7-16.2
+        c-18.8,0-36.7,4-52.9,11.3c-20.4-13.4-44.8-21.3-71.1-21.3c-30.1,0-57.8,10.3-79.8,27.5c-21.6-16-48.3-25.5-77.2-25.5
+        c-18.7,0-36.4,4-52.4,11.1c-23.2-21.7-54.3-35.1-88.6-35.1c-3.6,0-7.1,0.2-10.6,0.4c-6.2-47.3-38-86.6-81-103.5
+        c-2.7-64.8-53-117.2-116.9-123.3c0.7-5.3,1-10.7,1-16.1c0-71.5-58-129.5-129.5-129.5c-17.3,0-33.9,3.4-49,9.6v802.9h1920V43.4z"/>
+        <g>
+            <g>
+                <path class="xs-child-path-1" d="M1675.7,811.9c0,0-29.2-8-17.7-35.4c11.5-27.4,36.3-8.9,36.3-8.9s-24.8-20.4-5.3-38.1
+                    c19.5-17.7,24.8,21.3,24.8,21.3s-9.7-46.9,32.8-54.9c42.5-8,54.9,53.1,54.9,53.1s4.4-46,23.9-47.8c19.5-1.8,0,41.6,0,41.6
+                    s23.8-37.2,58.8-10.6c35,26.6-7.5,79.7-7.5,79.7H1675.7z"/>
+                <g>
+                    <path class="xs-child-path-2" d="M1671.9,785.2c4.7-12.5,31.6-9,31.6-9s-14.1-29.9-8.4-33.5c5.7-3.6,22.8,18.5,22.8,18.5s-2.3-30.6,14.2-43.5
+                        c16.5-12.8,47.1-1.2,64.2,35.8c0,0,2-2.8,4.7-6c-2.3-9.4-16.1-58.8-54.5-51.6c-37.3,7-34.4,44.1-33.1,53
+                        c-1.4-7.6-7.6-34.6-24.5-19.3c-19.5,17.7,5.3,38.1,5.3,38.1s-24.8-18.6-36.3,8.9c-11.5,27.4,17.7,35.4,17.7,35.4
+                        S1667.2,797.8,1671.9,785.2z"/>
+                    <path class="xs-child-path-2" d="M1884.2,732.3c-35-26.6-58.8,10.6-58.8,10.6s19.5-43.4,0-41.6c-16.9,1.5-22.5,36.4-23.6,45.6
+                        c4.4-5,10.5-10.6,13.9-7.7c5.7,5,3.6,19.2,3.6,19.2s24.2-25.7,43.5-15.7c19.2,10,14,69.2,14,69.2S1919.2,758.8,1884.2,732.3z"/>
+                </g>
+            </g>
+        </g>
+        <g>
+            <g>
+                <path class="xs-child-path-1" d="M52.4,811.9c0,0-29.2-8-17.7-35.4c11.5-27.4,36.3-8.9,36.3-8.9s-24.8-20.4-5.3-38.1
+                    c19.5-17.7,24.8,21.3,24.8,21.3s-9.7-46.9,32.8-54.9c42.5-8,54.9,53.1,54.9,53.1s4.4-46,23.9-47.8c19.5-1.8,0,41.6,0,41.6
+                    s23.8-37.2,58.8-10.6c35,26.6-7.5,79.7-7.5,79.7H52.4z"/>
+                <g>
+                    <path class="xs-child-path-2" d="M48.6,785.2c4.7-12.5,31.6-9,31.6-9s-14.1-29.9-8.4-33.5c5.7-3.6,22.8,18.5,22.8,18.5s-2.3-30.6,14.2-43.5
+                        c16.5-12.8,47.1-1.2,64.2,35.8c0,0,2-2.8,4.7-6c-2.3-9.4-16.1-58.8-54.5-51.6c-37.3,7-34.4,44.1-33.1,53
+                        c-1.4-7.6-7.6-34.6-24.5-19.3c-19.5,17.7,5.3,38.1,5.3,38.1s-24.8-18.6-36.3,8.9c-11.5,27.4,17.7,35.4,17.7,35.4
+                        S43.9,797.8,48.6,785.2z"/>
+                    <path class="xs-child-path-2" d="M260.9,732.3c-35-26.6-58.8,10.6-58.8,10.6s19.5-43.4,0-41.6c-16.9,1.5-22.5,36.4-23.6,45.6
+                        c4.4-5,10.5-10.6,13.9-7.7c5.7,5,3.6,19.2,3.6,19.2s24.2-25.7,43.5-15.7s14,69.2,14,69.2S295.9,758.8,260.9,732.3z"/>
+                </g>
+            </g>
+        </g>
+    </svg>	<!-- end footer svg shape -->
+        <div class="container">
+            <div class="row">
+                <div class="xs-family-img-footer col-md-8 mx-auto text-center">
+                    <img src="{% static "images/happy_family.png" %}" alt="">
+                </div>
+            </div><!-- .row END -->
+            <div class="xs-copyright-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright By &copy; <a href="" target="_blank">EMPRESA</a> - 2019</p>  
+                    </div>
+                    <div class="xs-back-to-top-wraper">
+                        <a href="#" class="xs-back-to-top">
+                            <span class="icon icon-arrow-up"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .container END -->
+    </div>		<!-- End footerBottom section -->
+        </footer>	
