@@ -1,0 +1,103 @@
+
+{% load static %}	
+<link rel="stylesheet" href="{% static "css/flow.css" %}">
+<link rel="stylesheet" href="{% static "css/new/style.css" %}">
+
+<div class="step-content">
+    <div class="step-grid">
+        <div class="step-info">
+            <div class="step-box">
+                <h3 class="step-title">Ready?</h3>
+                <ul class="step-row clearfix">
+                    <li class="step-row-point step-row-top clearfix"></li>
+                    <li class="step-row-left clearfix">                                              
+                        
+                       <section class="content">   
+                        <div class="step-text-fl" style="margin-left:200px;" >
+                            <h2 style="float:left;padding-left:100px;">PUZZLE MODE</h2>
+                            <p style="float:left;" >Can you piece together the endangered species puzzles?</p>
+                           
+                        </div>                         
+    						<div class="works" style="margin-left:200px;">
+                        	<div class="grid-item-double one">
+                    	  		<figure class="reveal-effect se2-white wow perspective-box">
+                    	  			<img src="{% static "images/new/puzzle.jpg" %}" alt="Image">
+                    	  			<figcaption>
+                    	  				<a href="{% url 'puzzle:pickAnimal' %}">
+                    	  					<div class="bg-color" data-background="#2095f4"></div>
+                    	  					<!-- end bg-color -->
+                    	  					<div class="brand"> <!--img src="{% static "images/new/logo2.jpg" %}" alt="Image"--> </div>
+                    	  					<!-- end brand -->
+                    	  					<h5>Start</h5>
+                    	  					<small>Win the puzzle game and earn your scores!</small>
+                    	  				</a>
+                    	  			</figcaption>
+                    	  		</figure>
+                    	  	</div>                        	  	
+							 </div>
+							</section>
+							
+
+                    </li>
+                    <li class="step-row-bottom clearfix"></li>
+                    <li class="step-row-right clearfix">
+                    
+    						<section class="content">   
+                        <div class="step-text-fl" style="margin-left:200px;" >
+                            <h2 style="float:left;padding-left:100px;">GROW MODE</h2>
+                            <p style="float:left;" >Feed your animals and protect them from pollution!</p>
+                        </div>                         
+    						<div class="works" style="margin-left:200px;">
+                        	<div class="grid-item-double one">
+                    	  		<figure class="reveal-effect se2-white wow perspective-box">
+                    	  			<img src="{% static "images/new/grow.png" %}" alt="Image">
+                    	  			<figcaption>
+                    	  				<a href="{% url 'puzzle:animalGrow' %}">
+                    	  					<div class="bg-color" data-background="#2095f4"></div>
+                    	  					<!-- end bg-color -->
+                    	  					<div class="brand"> <!--img src="{% static "images/new/logo2.jpg" %}" alt="Image"--> </div>
+                    	  					<!-- end brand -->
+                    	  					<h5>Start</h5>
+                    	  					<small></small>
+                    	  				</a>
+                    	  			</figcaption>
+                    	  		</figure>
+                    	  	</div>                        	  	
+							 </div>
+							</section>																																
+                    </li>
+                    <li class="step-row-bottom-one clearfix">
+
+                    </li>
+                    <li class="step-row-left clearfix">
+                        <section class="content">
+                            <div class="step-text-fl" style="margin-left:200px;">
+                                <h2 style="float:left;padding-left:100px;">FAMILY MODE</h2>
+                                <p style="float:left;">Do you know there are multiple species in Victoria are close to being extinct?
+                                Visit the zoo to learn more and earn your <b>100</b> scores!</p>
+                            </div> 
+                        	<div class="works" style="margin-left:200px;">
+								<div class="grid-item-double three">
+                        	  	<figure class="reveal-effect se2-white wow perspective-box">
+                        	  		<img src="{% static "images/new/family.jpg" %}" alt="Image">
+                        	  		<figcaption>
+                        	  			<a href="{% url 'puzzle:family_mode' %}">
+                        	  				<div class="bg-color" data-background="#6dd7a9"></div>
+                        	  					<!-- end bg-color -->
+                        	  				<div class="brand"> <!--img src="{% static "images/new/logo-brand.png" alt="Image"--> </div>
+                        	  					<!-- end brand -->
+                        	  				<h5>Start</h5>
+                        	  				<small> </small>
+                        	  			</a>
+                        	  		</figcaption>
+                        	  	</figure>
+                            </div>	
+                            </div>
+                        </section>			
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

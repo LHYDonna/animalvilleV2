@@ -1,0 +1,151 @@
+﻿{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Game center</title>
+<meta name="author" content="Themezinho">
+<meta name="description" content="Anchor | Freelancer & Creative Agency Portfolio">
+<meta name="keywords" content="creative, works, showcase, portfolio, highlight, projects, parallax, agency, digital, studio, css, animation, transition, svg, html, css">
+<!-- FAVICON FILES -->
+<link href="ico/apple-touch-icon-144-precomposed.png" rel="apple-touch-icon" sizes="144x144">
+<link href="ico/apple-touch-icon-114-precomposed.png" rel="apple-touch-icon" sizes="114x114">
+<link href="ico/apple-touch-icon-72-precomposed.png" rel="apple-touch-icon" sizes="72x72">
+<link href="ico/apple-touch-icon-57-precomposed.png" rel="apple-touch-icon">
+<link href="ico/favicon.png" rel="shortcut icon">
+
+<!-- CSS FILES -->
+<link rel="stylesheet" href="{% static "css/new/bootstrap.min.css" %}">
+<link rel="stylesheet" href="{% static "css/new/style.css" %}">
+<link rel="stylesheet" href="{% static "css/new/animate.min.css" %}">
+<link rel="stylesheet" href="{% static "css/new/hamburger-menu.css" %}">
+<link rel="stylesheet" href="{% static "css/new/odometer.min.css" %}">
+<link rel="stylesheet" href="{% static "css/new/swiper.min.css" %}">
+<link rel="stylesheet" href="{% static "css/new/fancybox.min.css" %}">
+  
+</head>
+<body>
+<div class="preloader"> <img src="{% static "images/new/preloader.gif" %}" alt="Image">
+  <ul class="text-rotater">
+    <li>Hangin there</li>
+    <li>Still loading</li>
+    <li>Almost done</li>
+  </ul>
+</div>
+<div class="transition-overlay"></div> 
+<main>
+	<ul class="hamburger-navigation">
+		<li><a href="{% url 'puzzle:index' %}">Go Home</a> </li>
+		<li><a href="#">Game Center</a> </li>
+		<li><a href="{% url 'puzzle:info' %}">Information Page</a> </li>
+		{% if request.user.is_authenticated %}
+		<li><a>Hi,{{request.user.username}}</a></li>
+		<li><a>Your Score: {{request.user.user_score}}</a></li>
+		<li><a href="{% url 'logout'%}">logout</a></li>
+		{% else %}
+		<a href="{% url 'login' %}"><strong>login</strong></a>
+		{% endif %}
+	</ul>
+   <svg class="shape-overlays" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <path class="shape-overlays__path" d=""></path>
+    <path class="shape-overlays__path" d=""></path>
+    <path class="shape-overlays__path" d=""></path>
+  </svg>
+  <header class="header">
+    <!--div class="logo"><img src="{% static "images/new/logo.png" %}" alt="Image"></!--div>-->
+    <!-- end logo -->     
+    <div class="hamburger" id="hamburger">
+      <div class="hamburger__line hamburger__line--01">
+        <div class="hamburger__line-in hamburger__line-in--01"></div>
+      </div>
+      <div class="hamburger__line hamburger__line--02">
+        <div class="hamburger__line-in hamburger__line-in--02"></div>
+      </div>
+      <div class="hamburger__line hamburger__line--03">
+        <div class="hamburger__line-in hamburger__line-in--03"></div>
+      </div>
+      <div class="hamburger__line hamburger__line--cross01">
+        <div class="hamburger__line-in hamburger__line-in--cross01"></div>
+      </div>
+      <div class="hamburger__line hamburger__line--cross02">
+        <div class="hamburger__line-in hamburger__line-in--cross02"></div>
+      </div>
+    </div>
+    <!-- end hamburger -->
+    <div class="equalizer"> <span></span> <span></span> <span></span> <span></span> </div>
+    <!-- end equalizer -->
+    
+  </header> 
+  <section class="int-hero">
+    {% include 'puzzle/dog.html'%}    
+   
+    <!--div id="barchart"></div-->    
+    <div class="inner">
+    <h2>Come on ! Follow me to meet your new friends!<h2>
+    <p class="text-right">    
+    </div>    
+ </section>
+
+{% include 'puzzle/test1.html' %}
+
+<!-- end footer-spacing -->
+{% include 'puzzle/footer.html' %}
+</main>
+<!--div class="footer-spacing"></div-->
+
+<!-- end footer -->
+<audio id="link" src="{% static "audio/link.mp3" %}"preload="auto"></audio>
+
+<!-- JS FILES --> 
+<script src="{% static "js/new/jquery.min.js" %}"></script> 
+<script>
+	
+		(function($) {
+			$(window).load(function(){
+				$("body").addClass("page-loaded");	
+			});
+		})(jQuery)
+		
+		
+anychart.onDocumentReady(function () {
+	
+// create data
+var data = [['Black-eared miner', 390], ['Mountain Pygmy-possum', 2250],['Lesser Sand Plover', 3327],['Chatham Albatross',11000],['Long-footed Potoroo',1500],];
+
+// create a chart
+chart = anychart.bar();
+
+// create a bar series and set the data
+var series1 = chart.bar(data);
+// configure the visual settings of the first series
+series1.normal().fill("#00cc99", 0.3);
+series1.hovered().fill("#00cc99", 0.1);
+series1.selected().fill("#00cc99", 0.5);
+series1.normal().stroke("#00cc99", 1, "10 5", "round");
+series1.hovered().stroke("#00cc99", 2, "10 5", "round");
+series1.selected().stroke("#00cc99", 4, "10 5", "round");
+series1.labels(true);
+series1.labels().format("{%value} Alive subject");
+// set the container id
+chart.container("barchart");
+
+// initiate drawing the chart
+chart.draw();
+	
+	
+});
+</script> 
+<script src="{% static "js/new/bootstrap.min.js" %}"></script> 
+<script src="{% static "js/new/swiper.min.js" %}"></script> 
+<script src="{% static "js/new/fancybox.min.js" %}"></script> 
+<script src="{% static "js/new/jquery.stellar.js" %}"></script> 
+<script src="{% static "js/new/odometer.min.js" %}"></script> 
+<script src="{% static "js/new/hamburger.min.js" %}"></script> 
+<script src="{% static "js/new/easings.js" %}"></script> 
+<script src="{% static "js/new/isotope.min.js" %}"></script> 
+<script src="{% static "js/new/wow.min.js"></script> 
+<script src="{% static "js/new/perspective.min.js" %}"></script> 
+<script src="{% static "js/new/scripts.js" %}"></script>
+</body>
+</html>

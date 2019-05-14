@@ -1,0 +1,48 @@
+{% extends 'puzzle/index.html' %}
+{% block content %}
+<style>
+    body {
+        height:100%;
+        background-attachment:fixed;   
+        margin-left:40%;
+        background-color: antiquewhite;
+    }
+    .register {
+        margin-top: 15%;
+    }
+    .btn-primary{background-color:#1a8fb4;}
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary:focus{background-color:#00789d;}
+    .btn-primary{color:#ffffff;background-color:#3276b1;border-color:#285e8e;}
+</style>
+
+<body>
+<div class="register">
+    <form action="{% url 'puzzle:signup' %}" method="post">
+        {% csrf_token %}        
+        {{ register_form.as_p }}
+    <div class="form-actions">
+        <input class="btn-primary" type="submit" value="register" style="color:black;" />
+        <a href="{% url 'login' %}">Return to <strong>Login in</strong></a>  
+        
+    </div>
+    </form>
+    
+    <p>
+
+    </p>
+    
+</div>
+
+</body>
+
+<script type="text/javascript">
+    function register() {
+        console.log("register");
+        alert("Your registration was successful!");
+    }
+</script>
+
+{% endblock %}
+

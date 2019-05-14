@@ -1,0 +1,84 @@
+{% load static %}
+<body>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="{% static "css/new/style.css" %}">		
+		<link rel="stylesheet" href="{% static "css/new/hamburger-menu.css" %}">
+		
+	</head>
+	<main>
+		<ul class="hamburger-navigation">
+			<li><a href="index.html">Go Home</a> </li>
+			<li><a href="modeSelection.html">Game Center</a> </li>
+			<li><a href="info.html">Information Page</a> </li>
+			<li><a>Hi,{{request.user.username}}</a></li>
+			<li><a>Your Score: {{request.user.user_score}}</a></li>
+		</ul>
+		<svg class="shape-overlays" viewBox="0 0 100 100" preserveAspectRatio="none">
+			<path class="shape-overlays__path" d=""></path>
+			<path class="shape-overlays__path" d=""></path>
+			<path class="shape-overlays__path" d=""></path>
+		</svg>
+		<header class="header">
+			<!--div class="logo"><img src="{% static "images/new/logo.png" %}" alt="Image"></!--div>-->
+			<!-- end logo -->
+			<div class="hamburger" id="hamburger">
+				<div class="hamburger__line hamburger__line--01">
+					<div class="hamburger__line-in hamburger__line-in--01"></div>
+				</div>
+				<div class="hamburger__line hamburger__line--02">
+					<div class="hamburger__line-in hamburger__line-in--02"></div>
+				</div>
+				<div class="hamburger__line hamburger__line--03">
+					<div class="hamburger__line-in hamburger__line-in--03"></div>
+				</div>
+				<div class="hamburger__line hamburger__line--cross01">
+					<div class="hamburger__line-in hamburger__line-in--cross01"></div>
+				</div>
+				<div class="hamburger__line hamburger__line--cross02">
+					<div class="hamburger__line-in hamburger__line-in--cross02"></div>
+				</div>
+			</div>
+			<!-- end hamburger -->
+			<div class="equalizer"> <span></span> <span></span> <span></span> <span></span> </div>
+			<!-- end equalizer -->
+
+		</header>
+	</main>
+</body>
+
+<script>
+
+	(function ($) {
+		$(window).load(function () {
+			$("body").addClass("page-loaded");
+		});
+	})(jQuery)
+
+	anychart.onDocumentReady(function () {
+
+		// create data
+		var data = [['Black-eared miner', 390], ['Mountain Pygmy-possum', 2250], ['Lesser Sand Plover', 3327], ['Chatham Albatross', 11000], ['Long-footed Potoroo', 1500],];
+
+		// create a chart
+		chart = anychart.bar();
+
+		// create a bar series and set the data
+		var series1 = chart.bar(data);
+		// configure the visual settings of the first series
+		series1.normal().fill("#00cc99", 0.3);
+		series1.hovered().fill("#00cc99", 0.1);
+		series1.selected().fill("#00cc99", 0.5);
+		series1.normal().stroke("#00cc99", 1, "10 5", "round");
+		series1.hovered().stroke("#00cc99", 2, "10 5", "round");
+		series1.selected().stroke("#00cc99", 4, "10 5", "round");
+		series1.labels(true);
+		series1.labels().format("{%value} Alive subject");
+		// set the container id
+		chart.container("barchart");
+		// initiate drawing the chart
+		chart.draw();
+	});
+</script>
+<script src="{% static "js/new/hamburger.min.js" %}"></script>
+<script src="{% static "js/new/scripts.js" %}"></script>

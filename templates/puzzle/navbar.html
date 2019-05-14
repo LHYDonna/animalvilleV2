@@ -1,0 +1,84 @@
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.dropbtn {
+  
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: absolute;
+  display: inline-block;
+  margin-right:10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.loginbtn{
+    color: black;
+    padding: 12px 16px;
+ 
+}
+
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0px; background-color: #84EBA6;">
+  <!-- Brand and toggle get grouped for better mobile display -->
+	<div class="container-fluid" style="float:left">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="{% url 'puzzle:index' %}" style="color:#fff">Home Page</a>
+			<a class="navbar-brand" href="{% url 'puzzle:info' %}">Information Page</a>
+			<a class="navbar-brand" href="{% url 'puzzle:modes' %}">Game Center</a>
+		</div>
+		
+		<!-- Collect the nav links, forms, and other content for toggling -->
+
+		<div class="dropdown">
+			{% if request.user.is_authenticated %}
+			<button class="dropbtn" data-toggle="dropdown">{{ request.user.username }}</button>
+			<div class="dropdown-content">
+				<a href="#nowhere">My Score:{{ request.user.user_score }}</a>
+				<a href="{% url 'logout'%}">logout</a>
+			</div>
+			{% else %}
+			<div class="loginbtn">
+				<p>You are not logged in</p><a href="{% url 'login' %}"><strong>login</strong></a>
+			</div>
+			{% endif %}
+		</div>
+
+
+
+
+</nav>
